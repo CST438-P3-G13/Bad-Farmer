@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DifficultyManager : MonoBehaviour
@@ -39,6 +40,18 @@ public class DifficultyManager : MonoBehaviour
         
         // Make some if statements that will check if the ratios are in certain ranges, and then increment the difficulty level accordingly
 
+        return 0;
+    }
+
+    public List<int> ProvideAnimalCounts()
+    {
+        // Make/Find some algorithm to turn the difficulty level into a seed to randomly generate different numbers of animals
+        return new List<int>() { 0, 0, 0 };
+    }
+
+    public int ProvideTaskCount()
+    {
+        // Similar to ProvideAnimalCounts function, but just to generate one value
         return 0;
     }
 }

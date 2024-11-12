@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     }
     
     /**
-     * <summary>This function starts a new day by calling all the necessary functions from the different managers</summary>
+     * <summary>This function starts a new day by calling all the necessary functions from the different managers. </summary>
      * <summary>The difficulty needs to be updated, hazards generated, tasks chosen, animals chosen</summary>
      */
     public void StartNewDay()
