@@ -100,7 +100,7 @@ public class Cow_Animal : MonoBehaviour
         {
             horizontalMove = -horizontalMove;
         }
-        rb.velocity = new Vector2(horizontalMove, rb.velocity.y);
+        rb.linearVelocity = new Vector2(horizontalMove, rb.linearVelocity.y);
 
     }
 }
