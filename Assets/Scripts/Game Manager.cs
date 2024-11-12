@@ -9,8 +9,12 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverScreen; 
     public GameObject pauseScreen;
 
-    // 0 for Main Menu, 1 for in game
-    private int _playingState;
+    private DifficultyManager _difficultyManager;
+    // Other managers
+    private int _playingState; // 0 for Main Menu, 1 for in game
+    private int _day;
+    private int _deathsAllowedToday;
+    private int _deathsToday;
     
     void Awake()
     {
@@ -25,7 +29,12 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    void Update()
+    private void Start()
+    {
+        _difficultyManager = DifficultyManager.Instance;
+    }
+
+    private void Update()
     {
         // Currently in Main Menu, so don't allow pausing
         if (_playingState == 0)
@@ -44,6 +53,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         _playingState = 1;
+        _day = 1; // Might change if we allow save data
         // switch to game scene
         StartNewDay();
     }
@@ -54,9 +64,24 @@ public class GameManager : MonoBehaviour
         gameOverScreen.SetActive(true);
     }
     
+    /**
+     * <summary>This function starts a new day by calling all the necessary functions from the different managers</summary>
+     * <summary>The difficulty needs to be updated, hazards generated, tasks chosen, animals chosen</summary>
+     */
     public void StartNewDay()
     {
         // do stuff here
+        if (_day == 1)
+        {
+            _deathsAllowedToday = _difficultyManager.Initialize();
+        }
+        else
+        {
+            _deathsAllowedToday = _difficultyManager.UpdateDifficulty(_deathsToday / (_deathsAllowedToday * 1f), 0f);
+        }
+
+        _deathsToday = 0;
+        // Procedural generation, tasks, animals
     }
 
     public void PauseGame()
