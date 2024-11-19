@@ -27,53 +27,73 @@ public class Cow_Animal : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         SetHappinessState(HappinessState.Happy); // Initialize happiness
+
+        if (AnimalManager.Instance != null)
+    {
+        AnimalManager.Instance.animalHappiness[gameObject] = HappinessState.Happy;
+    }
     }
 
     // Update is called once per frame
     void Update()
+{
+    if (isInteracting)
     {
-        if (isInteracting)
+        if (Time.time < interactionEndTime)
         {
-            if (Time.time < interactionEndTime)
-            {
-                horizontalMove = 0f;
-                anim.SetBool("isRunning", false);
-                return;
-            }
-            else
-            {
-                isInteracting = false;
-            }
+            horizontalMove = 0f;
+            anim.SetBool("isRunning", false);
+            return;
         }
-
-        if (Time.time > nextDirectionChange + randomDelay)
+        else
         {
-            randomDelay = Random.Range(0.2f, 1f);
-            if (Random.value < idle)
-            {
-                horizontalMove = 0f;
-                IdleBehavior();
-            }
-            else
-            {
-                float direction = Random.Range(-1, 2);
-                float randomSpeed = runSpeed + Random.Range(-speedVar, speedVar);
-                horizontalMove = direction * randomSpeed;
-            }
-            nextDirectionChange = Time.time + directionInterval;
-        }
-
-        anim.SetBool("isRunning", horizontalMove != 0f);
-
-        if (horizontalMove < 0f)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else if (horizontalMove > 0f)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
+            isInteracting = false;
         }
     }
+
+    if (Time.time > nextDirectionChange + randomDelay)
+    {
+        randomDelay = Random.Range(0.2f, 1f);
+
+        if (Random.value < idle)
+        {
+            horizontalMove = 0f;
+            rb.linearVelocity = Vector2.zero; // Stop movement
+            IdleBehavior();
+        }
+        else
+        {
+            float direction = Random.value < 0.5f ? -1 : 1; // Randomly choose direction
+            float randomSpeed = runSpeed + Random.Range(-speedVar, speedVar);
+
+            if (Random.value < 0.5f) // 50% chance for horizontal or vertical movement
+            {
+                horizontalMove = direction * randomSpeed; // Horizontal movement
+                rb.linearVelocity = new Vector2(horizontalMove, 0f); // Apply horizontal velocity
+            }
+            else
+            {
+                float verticalMove = direction * randomSpeed; // Vertical movement
+                rb.linearVelocity = new Vector2(0f, verticalMove); // Apply vertical velocity
+            }
+        }
+        nextDirectionChange = Time.time + directionInterval;
+    }
+
+    // Update animation state
+    anim.SetBool("isRunning", rb.linearVelocity != Vector2.zero);
+
+    // Flip sprite for horizontal movement
+    if (rb.linearVelocity.x < 0f)
+    {
+        transform.localScale = new Vector3(-1, 1, 1);
+    }
+    else if (rb.linearVelocity.x > 0f)
+    {
+        transform.localScale = new Vector3(1, 1, 1);
+    }
+}
+
 
     private void IdleBehavior()
     {
@@ -99,7 +119,7 @@ public class Cow_Animal : MonoBehaviour
         {
             horizontalMove = -horizontalMove;
         }
-        rb.velocity = new Vector2(horizontalMove, rb.velocity.y);
+        rb.linearVelocity = new Vector2(horizontalMove, rb.linearVelocity.y);
     }
 
     public void SetHappinessState(HappinessState state)
@@ -109,17 +129,20 @@ public class Cow_Animal : MonoBehaviour
         switch (happinessState)
         {
             case HappinessState.Happy:
-                runSpeed = 20f; // Slow speed
+                runSpeed = 20f;
                 break;
             case HappinessState.Neutral:
-                runSpeed = 40f; // Normal speed
+                runSpeed = 40f;
                 break;
             case HappinessState.Agitated:
-                runSpeed = 60f; // Faster speed
+                runSpeed = 60f;
                 break;
             case HappinessState.Suicidal:
-                runSpeed = 80f; // Sprint speed
+                runSpeed = 80f;
                 break;
         }
+
+        Debug.Log($"{gameObject.name} is now {happinessState}, speed set to {runSpeed}");
     }
+
 }
