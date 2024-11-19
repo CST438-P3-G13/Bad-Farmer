@@ -89,4 +89,9 @@ public class GameManager : MonoBehaviour
         pauseScreen.SetActive(!pauseScreen.activeSelf);
         Time.timeScale = pauseScreen.activeSelf ? 0f : 1f;
     }
+
+    public int GetDay()
+    {
+        return _day;
+    }
 }
