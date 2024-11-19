@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -21,7 +22,6 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     private void Start()
     {
-        _gameManager = GameManager.Instance;
         uncollapsedTiles = gridWidth * gridHeight;
         GenerateGrid();
     }
@@ -45,6 +45,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             Vector2Int cell = GetLowestEntropyCell(possibleTiles);
             CollapseCell(cell, possibleTiles);
             List<HashSet<string>> directionalCompatibilities = GetCompatibleInDirections(cell, possibleTiles);
+            
             int[,] visited = new int[gridWidth, gridHeight];
             for (int i = 0; i < gridWidth; i++)
             {
@@ -53,35 +54,7 @@ public class WaveFunctionCollapse : MonoBehaviour
                     visited[i, j] = 0;
                 }
             }
-            
-            // Call function on all valid neighbors
-            for (int i = 0; i < 4; i++)
-            {
-                int newX = cell.x + dir[i];
-                int newY = cell.y + dir[i + 1];
-
-                if (newX < 0 || newY < 0 || newX >= gridWidth || newY >= gridHeight || grid[newX, newY] != null)
-                {
-                    continue;
-                }
-
-                Vector2Int neighbor = new Vector2Int(newX, newY);
-                switch (i)
-                {
-                    case 0:
-                        PropagateConstraints(neighbor, directionalCompatibilities[0], possibleTiles, (int[,])visited.Clone());
-                        break;
-                    case 1:
-                        PropagateConstraints(neighbor, directionalCompatibilities[1], possibleTiles, (int[,])visited.Clone());
-                        break;
-                    case 2:
-                        PropagateConstraints(neighbor, directionalCompatibilities[2], possibleTiles, (int[,])visited.Clone());
-                        break;
-                    case 3:
-                        PropagateConstraints(neighbor, directionalCompatibilities[3], possibleTiles, (int[,])visited.Clone());
-                        break;
-                }
-            }
+            PropagateConstraints(cell, possibleTiles);
         }
 
         for (int i = 0; i < gridWidth; i++)
@@ -103,7 +76,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             for (int j = 0; j < gridHeight; j++)
             {
                 int entropy = possibleTiles[i, j].Count;
-                if (entropy > 1 && entropy < lowestEntropy)
+                if ((entropy >= 1 && entropy < lowestEntropy) && grid[i, j] == null)
                 {
                     lowestEntropyCell = new Vector2Int(i, j);
                     lowestEntropy = possibleTiles[i, j].Count;
@@ -119,7 +92,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         int x = cell.x;
         int y = cell.y;
 
-        if (possibleTiles[x, y].Count <= 1)
+        if (possibleTiles[x, y].Count == 0 || grid[x, y] != null)
         {
             Debug.Log("Error in Wave Function Collapse. Attempting to collapse invalid or already collapsed cell.");
             return;
@@ -133,52 +106,49 @@ public class WaveFunctionCollapse : MonoBehaviour
         uncollapsedTiles--;
     }
 
-    void PropagateConstraints(Vector2Int cell, HashSet<string> compatible, List<TileData>[,] possibleTiles, int[,] visited)
+    void PropagateConstraints(Vector2Int cell, List<TileData>[,] possibleTiles)
     {
-        int currX = cell.x, currY = cell.y;
-        visited[currX, currY] = 1;
+        Queue<Vector2Int> propQueue = new Queue<Vector2Int>();
+        int[,] visited = new int[gridWidth, gridHeight];
         
-        Debug.Log(cell);
-        
-        List<TileData> newPossibilities = possibleTiles[currX, currY].FindAll(t => compatible.Contains(t.name)); // Get all compatible tiles out of the current possibilities
-        if (newPossibilities.Count < possibleTiles[currX, currY].Count)
-        {
-            possibleTiles[currX, currY] = newPossibilities;
-        }
-        else
-        {
-            return;
-        }
-        
-        // Get ready for next function calls by collecting all possible tile types for neighbors in each direction
-        List<HashSet<string>> directionalCompatibilities = GetCompatibleInDirections(cell, possibleTiles);
+        propQueue.Enqueue(cell);
+        visited[cell.x, cell.y] = 1;
 
-        for (int i = 0; i < 4; i++)
+        while (propQueue.Count > 0)
         {
-            int newX = currX + dir[i];
-            int newY = currY + dir[i + 1];
+            var curr = propQueue.Dequeue();
 
-            if (newX < 0 || newY < 0 || newX >= gridWidth || newY >= gridHeight || visited[newX, newY] == 1 || grid[newX, newY] != null)
+            // Get ready for next function calls by collecting all possible tile types for neighbors in each direction
+            var directionalCompatibilities = GetCompatibleInDirections(cell, possibleTiles);
+
+            for (int i = 0; i < 4; i++)
             {
-                Debug.Log("x: " + newX + ", y: " + newY);
-                continue;
-            }
+                int newX = curr.x + dir[i];
+                int newY = curr.y + dir[i + 1];
 
-            Vector2Int neighbor = new Vector2Int(newX, newY);
-            switch (i)
-            {
-                case 0:
-                    PropagateConstraints(neighbor, directionalCompatibilities[0], possibleTiles, visited);
-                    break;
-                case 1:
-                    PropagateConstraints(neighbor, directionalCompatibilities[1], possibleTiles, visited);
-                    break;
-                case 2:
-                    PropagateConstraints(neighbor, directionalCompatibilities[2], possibleTiles, visited);
-                    break;
-                case 3:
-                    PropagateConstraints(neighbor, directionalCompatibilities[3], possibleTiles, visited);
-                    break;
+                if (newX < 0 || newY < 0 || newX >= gridWidth || newY >= gridHeight || visited[newX, newY] == 1 || grid[newX, newY] != null)
+                {
+                    Debug.Log("x: " + newX + ", y: " + newY);
+                    continue;
+                }
+                
+                if (possibleTiles[newX, newY].Count <= 1)
+                {
+                    continue;
+                }
+                
+                List<TileData> newPossibilities = possibleTiles[newX, newY].FindAll(t => directionalCompatibilities[i].Contains(t.name)); // Get all compatible tiles out of the current possibilities
+                if (newPossibilities.Count == 0)
+                {
+                    newPossibilities = new List<TileData>() { tileDataList[0] };
+                }
+                
+                if (newPossibilities.Count < possibleTiles[newX, newY].Count)
+                {
+                    possibleTiles[newX, newY] = newPossibilities;
+                    propQueue.Enqueue(cell);
+                    visited[newX, newY] = 1;
+                }
             }
         }
     }
