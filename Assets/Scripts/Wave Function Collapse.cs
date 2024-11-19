@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
@@ -46,11 +47,19 @@ public class WaveFunctionCollapse : MonoBehaviour
             CollapseCell(cell, possibleTiles);
             List<HashSet<string>> directionalCompatibilities = GetCompatibleInDirections(cell, possibleTiles);
             int[,] visited = new int[gridWidth, gridHeight];
+            for (int i = 0; i < gridWidth; i++)
+            {
+                for (int j = 0; j < gridHeight; j++)
+                {
+                    visited[i, j] = 0;
+                }
+            }
             
+            // Call function on all valid neighbors
             for (int i = 0; i < 4; i++)
             {
-                int newX = currX + dir[i];
-                int newY = currY + dir[i + 1];
+                int newX = cell.x + dir[i];
+                int newY = cell.y + dir[i + 1];
 
                 if (newX < 0 || newY < 0 || newX >= gridWidth || newY >= gridHeight || grid[newX, newY] != null)
                 {
@@ -61,21 +70,28 @@ public class WaveFunctionCollapse : MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        PropagateConstraints(neighbor, directionalCompatibilities[0], possibleTiles, visited);
+                        PropagateConstraints(neighbor, directionalCompatibilities[0], possibleTiles, (int[,])visited.Clone());
                         break;
                     case 1:
-                        PropagateConstraints(neighbor, directionalCompatibilities[1], possibleTiles, visited);
+                        PropagateConstraints(neighbor, directionalCompatibilities[1], possibleTiles, (int[,])visited.Clone());
                         break;
                     case 2:
-                        PropagateConstraints(neighbor, directionalCompatibilities[2], possibleTiles, visited);
+                        PropagateConstraints(neighbor, directionalCompatibilities[2], possibleTiles, (int[,])visited.Clone());
                         break;
                     case 3:
-                        PropagateConstraints(neighbor, directionalCompatibilities[3], possibleTiles, visited);
+                        PropagateConstraints(neighbor, directionalCompatibilities[3], possibleTiles, (int[,])visited.Clone());
                         break;
                 }
             }
         }
-        
+
+        for (int i = 0; i < gridWidth; i++)
+        {
+            for (int j = 0; j < gridHeight; j++)
+            {
+                tilemap.SetTile(new Vector3Int(i, j, 0), grid[i, j].tile);
+            }
+        }
     }
 
     Vector2Int GetLowestEntropyCell(List<TileData>[,] possibleTiles)
