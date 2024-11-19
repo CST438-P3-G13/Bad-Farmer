@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb7ed0396fcdf843872c90e443f5747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 256
-  gridHeight: 256
+  gridWidth: 25
+  gridHeight: 25
   tilemap: {fileID: 0}
   tileDataList:
   - name: Grass1
