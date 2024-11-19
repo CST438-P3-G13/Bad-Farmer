@@ -1,0 +1,684 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3438902950696376661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4652657670869538188}
+  - component: {fileID: 5868615081610735448}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4652657670869538188
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3438902950696376661}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.1698031, y: 1.6248827, z: -0.24138482}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5868615081610735448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3438902950696376661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeb7ed0396fcdf843872c90e443f5747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridWidth: 256
+  gridHeight: 256
+  tilemap: {fileID: 0}
+  tileDataList:
+  - name: Grass1
+    tile: {fileID: 11400000, guid: 89efeb4467fb0094d979965095f001b4, type: 2}
+    compatibleUp:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterNEW
+    - WaterNE
+    - WaterNW
+    - WaterN
+    - WaterEW
+    - WaterE
+    - WaterW
+    compatibleDown:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterSEW
+    - WaterSE
+    - WaterSW
+    - WaterS
+    - WaterEW
+    - WaterE
+    - WaterW
+    compatibleLeft:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterNSW
+    - WaterNS
+    - WaterNW
+    - WaterN
+    - WaterSW
+    - WaterS
+    - WaterW
+    compatibleRight:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterNSE
+    - WaterNS
+    - WaterNE
+    - WaterN
+    - WaterSE
+    - WaterS
+    - WaterE
+  - name: Grass2
+    tile: {fileID: 11400000, guid: 2cafbabd95c73cd4e8e63a59eb9c633d, type: 2}
+    compatibleUp:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterNEW
+    - WaterNE
+    - WaterNW
+    - WaterN
+    - WaterEW
+    - WaterE
+    - WaterW
+    compatibleDown:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterSEW
+    - WaterSE
+    - WaterSW
+    - WaterS
+    - WaterEW
+    - WaterE
+    - WaterW
+    compatibleLeft:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterNSW
+    - WaterNS
+    - WaterNW
+    - WaterN
+    - WaterSW
+    - WaterS
+    - WaterW
+    compatibleRight:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterNSE
+    - WaterNS
+    - WaterNE
+    - WaterN
+    - WaterSE
+    - WaterS
+    - WaterE
+  - name: Grass3
+    tile: {fileID: 11400000, guid: c7545284b6654b241be74ba068799a6a, type: 2}
+    compatibleUp:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterNEW
+    - WaterNE
+    - WaterNW
+    - WaterN
+    - WaterEW
+    - WaterE
+    - WaterW
+    compatibleDown:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterSEW
+    - WaterSE
+    - WaterSW
+    - WaterS
+    - WaterEW
+    - WaterE
+    - WaterW
+    compatibleLeft:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterNSW
+    - WaterNS
+    - WaterNW
+    - WaterN
+    - WaterSW
+    - WaterS
+    - WaterW
+    compatibleRight:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterNSE
+    - WaterNS
+    - WaterNE
+    - WaterN
+    - WaterSE
+    - WaterS
+    - WaterE
+  - name: Grass4
+    tile: {fileID: 11400000, guid: 4cbd225d6a62f0d4ca63beb0c7e784d5, type: 2}
+    compatibleUp:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterNEW
+    - WaterNE
+    - WaterNW
+    - WaterN
+    - WaterEW
+    - WaterE
+    - WaterW
+    compatibleDown:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterSEW
+    - WaterSE
+    - WaterSW
+    - WaterS
+    - WaterEW
+    - WaterE
+    - WaterW
+    compatibleLeft:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterNSW
+    - WaterNS
+    - WaterNW
+    - WaterN
+    - WaterSW
+    - WaterS
+    - WaterW
+    compatibleRight:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    - WaterNSE
+    - WaterNS
+    - WaterNE
+    - WaterN
+    - WaterSE
+    - WaterS
+    - WaterE
+  - name: Water
+    tile: {fileID: 11400000, guid: e1969421125bab5438ae5c72f30c71ab, type: 2}
+    compatibleUp:
+    - WaterSEW
+    - Water
+    compatibleDown:
+    - WaterNEW
+    - Water
+    compatibleLeft:
+    - WaterNSE
+    - Water
+    compatibleRight:
+    - WaterNSW
+    - Water
+  - name: WaterNSE
+    tile: {fileID: 11400000, guid: f4648b32d169b1b4e86dfd59e8ebf058, type: 2}
+    compatibleUp:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterSEW
+    - WaterSE
+    - WaterSW
+    - WaterS
+    compatibleDown:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterNEW
+    - WaterNE
+    - WaterNW
+    - WaterN
+    compatibleLeft:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleRight:
+    - Water
+    - WaterNSW
+    - WaterNEW
+    - WaterNW
+    - WaterSEW
+    - WaterSW
+    - WaterEW
+    - WaterW
+  - name: WaterNSW
+    tile: {fileID: 11400000, guid: 3b310b4846bb21c4d99d6d25a2dbc021, type: 2}
+    compatibleUp:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterSEW
+    - WaterSE
+    - WaterSW
+    - WaterS
+    compatibleDown:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterNEW
+    - WaterNE
+    - WaterNW
+    - WaterN
+    compatibleLeft:
+    - Water
+    - WaterNSE
+    - WaterNEW
+    - WaterNE
+    - WaterSEW
+    - WaterSE
+    - WaterEW
+    - WaterE
+    compatibleRight:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+  - name: WaterNS
+    tile: {fileID: 11400000, guid: 5b7f8366cb6bc3a458d09407571f6405, type: 2}
+    compatibleUp:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterSEW
+    - WaterSE
+    - WaterSW
+    - WaterS
+    compatibleDown:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterNEW
+    - WaterNE
+    - WaterNW
+    - WaterN
+    compatibleLeft:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleRight:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+  - name: WaterNEW
+    tile: {fileID: 11400000, guid: 2a8c4d7992e2eeb438a261f2d46c91d7, type: 2}
+    compatibleUp:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterSEW
+    - WaterSE
+    - WaterSW
+    - WaterS
+    compatibleDown:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleLeft:
+    - Water
+    - WaterNSE
+    - WaterNEW
+    - WaterNE
+    - WaterSEW
+    - WaterSE
+    - WaterEW
+    - WaterE
+    compatibleRight:
+    - Water
+    - WaterNSW
+    - WaterNEW
+    - WaterNW
+    - WaterSEW
+    - WaterSW
+    - WaterEW
+    - WaterW
+  - name: WaterNE
+    tile: {fileID: 11400000, guid: c0f100e6d73c8ab4f8f837c296411f0e, type: 2}
+    compatibleUp:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterSEW
+    - WaterSE
+    - WaterSW
+    - WaterS
+    compatibleDown:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleLeft:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleRight:
+    - Water
+    - WaterNSW
+    - WaterNEW
+    - WaterNW
+    - WaterSEW
+    - WaterSW
+    - WaterEW
+    - WaterW
+  - name: WaterNW
+    tile: {fileID: 11400000, guid: a060506eb99984944a71caad6ec48ba8, type: 2}
+    compatibleUp:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterSEW
+    - WaterSE
+    - WaterSW
+    - WaterS
+    compatibleDown:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleLeft:
+    - Water
+    - WaterNSE
+    - WaterNEW
+    - WaterNE
+    - WaterSEW
+    - WaterSE
+    - WaterEW
+    - WaterE
+    compatibleRight:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+  - name: WaterN
+    tile: {fileID: 11400000, guid: 0fc5c7592f034a142ae77958d3847dc4, type: 2}
+    compatibleUp:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterSEW
+    - WaterSE
+    - WaterSW
+    - WaterS
+    compatibleDown:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleLeft:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleRight:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+  - name: WaterSEW
+    tile: {fileID: 11400000, guid: bcdec489ffd22d74ba919b5276781dbf, type: 2}
+    compatibleUp:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleDown:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterNEW
+    - WaterNE
+    - WaterNW
+    - WaterN
+    compatibleLeft:
+    - Water
+    - WaterNSE
+    - WaterNEW
+    - WaterNE
+    - WaterSEW
+    - WaterSE
+    - WaterEW
+    - WaterE
+    compatibleRight:
+    - Water
+    - WaterNSW
+    - WaterNEW
+    - WaterNW
+    - WaterSEW
+    - WaterSW
+    - WaterEW
+    - WaterW
+  - name: WaterSE
+    tile: {fileID: 11400000, guid: bc12e8dee1986824b8687aa1b98ded85, type: 2}
+    compatibleUp:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleDown:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterNEW
+    - WaterNE
+    - WaterNW
+    - WaterN
+    compatibleLeft:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleRight:
+    - Water
+    - WaterNSW
+    - WaterNEW
+    - WaterNW
+    - WaterSEW
+    - WaterSW
+    - WaterEW
+    - WaterW
+  - name: WaterSW
+    tile: {fileID: 11400000, guid: 7a8adc76ba43a1e43b5dbd98a4f982da, type: 2}
+    compatibleUp:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleDown:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterNEW
+    - WaterNE
+    - WaterNW
+    - WaterN
+    compatibleLeft:
+    - Water
+    - WaterNSE
+    - WaterNEW
+    - WaterNE
+    - WaterSEW
+    - WaterSE
+    - WaterEW
+    - WaterE
+    compatibleRight:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+  - name: WaterS
+    tile: {fileID: 11400000, guid: 068aba8d51e1a43479b8e73ea3938de8, type: 2}
+    compatibleUp:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleDown:
+    - Water
+    - WaterNSE
+    - WaterNSW
+    - WaterNS
+    - WaterNEW
+    - WaterNE
+    - WaterNW
+    - WaterN
+    compatibleLeft:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleRight:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+  - name: WaterEW
+    tile: {fileID: 11400000, guid: 63f7a7497c42874499045c3d8387ecad, type: 2}
+    compatibleUp:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleDown:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleLeft:
+    - Water
+    - WaterNSE
+    - WaterNEW
+    - WaterNE
+    - WaterSEW
+    - WaterSE
+    - WaterEW
+    - WaterE
+    compatibleRight:
+    - Water
+    - WaterNSW
+    - WaterNEW
+    - WaterNW
+    - WaterSEW
+    - WaterSW
+    - WaterEW
+    - WaterW
+  - name: WaterE
+    tile: {fileID: 11400000, guid: ba9cd87e2ca2f5b4a94d78f1d212bb3d, type: 2}
+    compatibleUp:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleDown:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleLeft:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleRight:
+    - Water
+    - WaterNSW
+    - WaterNEW
+    - WaterNW
+    - WaterSEW
+    - WaterSW
+    - WaterEW
+    - WaterW
+  - name: WaterW
+    tile: {fileID: 11400000, guid: 8bde1ce404b334d4b995e0d78cc0c820, type: 2}
+    compatibleUp:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleDown:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4
+    compatibleLeft:
+    - Water
+    - WaterNSE
+    - WaterNEW
+    - WaterNE
+    - WaterSEW
+    - WaterSE
+    - WaterEW
+    - WaterE
+    compatibleRight:
+    - Grass1
+    - Grass2
+    - Grass3
+    - Grass4

@@ -6,8 +6,8 @@ using Random = UnityEngine.Random;
 public class WaveFunctionCollapse : MonoBehaviour
 {
     [Header("Grid Settings")]
-    public int gridWidth = 256;
-    public int gridHeight = 256;
+    public int gridWidth = 50;
+    public int gridHeight = 50;
 
     [Header("TileMap")]
     public Tilemap tilemap;
@@ -22,7 +22,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     private void Start()
     {
         _gameManager = GameManager.Instance;
-        Random.InitState(_gameManager.GetDay());
+        Random.InitState(Random.Range(0, 1000));
         uncollapsedTiles = gridWidth * gridHeight;
         GenerateGrid();
     }
@@ -138,6 +138,8 @@ public class WaveFunctionCollapse : MonoBehaviour
     {
         int currX = cell.x, currY = cell.y;
         visited[currX, currY] = 1;
+        
+        Debug.Log(cell);
         
         List<TileData> newPossibilities = possibleTiles[currX, currY].FindAll(t => compatible.Contains(t.name)); // Get all compatible tiles out of the current possibilities
         if (newPossibilities.Count < possibleTiles[currX, currY].Count)
