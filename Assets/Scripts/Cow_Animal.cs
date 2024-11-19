@@ -5,7 +5,7 @@ public class Cow_Animal : MonoBehaviour
 {
     public Rigidbody2D rb;
     public Animator anim;
-    public float runSpeed = 40f;
+    public float runSpeed = 10f;
     public float speedVar = 5f;
     public float horizontalMove = 0f;
 
@@ -94,13 +94,16 @@ public class Cow_Animal : MonoBehaviour
 
     void FixedUpdate()
     {
+        
+        rb.gravityScale = 0;
+
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * Mathf.Sign(horizontalMove), 1f);
 
         if (hit)
         {
             horizontalMove = -horizontalMove;
         }
-        rb.velocity = new Vector2(horizontalMove, rb.velocity.y);
+        rb.linearVelocity = new Vector2(horizontalMove, rb.linearVelocity.y);
 
     }
 }
