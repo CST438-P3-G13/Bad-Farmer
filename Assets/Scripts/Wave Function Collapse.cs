@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -69,22 +70,38 @@ public class WaveFunctionCollapse : MonoBehaviour
     Vector2Int GetLowestEntropyCell(List<TileData>[,] possibleTiles)
     {
         Vector2Int lowestEntropyCell = Vector2Int.zero;
-        int lowestEntropy = int.MaxValue;
+        float lowestEntropy = float.MaxValue;
 
         for (int i = 0; i < gridWidth; i++)
         {
             for (int j = 0; j < gridHeight; j++)
             {
-                int entropy = possibleTiles[i, j].Count;
-                if ((entropy >= 1 && entropy < lowestEntropy) && grid[i, j] == null)
+                if (grid[i, j] != null) continue;
+                
+                float entropy = CalculateWeightedEntropy(possibleTiles[i, j]);
+                if (entropy > 0 && entropy < lowestEntropy)
                 {
                     lowestEntropyCell = new Vector2Int(i, j);
-                    lowestEntropy = possibleTiles[i, j].Count;
+                    lowestEntropy = entropy;
                 }
             }
         }
 
         return lowestEntropyCell;
+    }
+
+    float CalculateWeightedEntropy(List<TileData> tiles)
+    {
+        float totalWeight = 0.0f;
+        float weightLogs = 0.0f;
+
+        foreach (var tile in tiles)
+        {
+            totalWeight += tile.weight;
+            weightLogs += tile.weight * Mathf.Log(tile.weight);
+        }
+
+        return Mathf.Log(totalWeight) - (weightLogs / totalWeight); // Shannon Entropy formula
     }
 
     void CollapseCell(Vector2Int cell, List<TileData>[,] possibleTiles)
@@ -99,11 +116,35 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
         
         // Choose random tile type from among its possibilities
-        TileData chosenTile = possibleTiles[x, y][Random.Range(0, possibleTiles[x, y].Count)];
+        TileData chosenTile = ChooseWeightedRandom(possibleTiles[x, y]);
         possibleTiles[x, y] = new List<TileData>() { chosenTile };
         grid[x, y] = chosenTile; // Set current tile to chosen tile
 
         uncollapsedTiles--;
+    }
+
+    TileData ChooseWeightedRandom(List<TileData> tiles)
+    {
+        float totalWeight = 0.0f;
+        foreach (var tile in tiles)
+        {
+            totalWeight += tile.weight;
+        }
+
+        float randomVal = Random.value * totalWeight;
+
+        foreach (var tile in tiles)
+        {
+            // Return first tile that has a greater weight
+            if (randomVal < tile.weight)
+            {
+                return tile;
+            }
+
+            randomVal -= tile.weight;
+        }
+
+        return tiles[0]; // Return first tile as a fallback (this shouldn't happen)
     }
 
     void PropagateConstraints(Vector2Int cell, List<TileData>[,] possibleTiles)
@@ -196,4 +237,5 @@ public class TileData
     public List<string> compatibleDown;
     public List<string> compatibleLeft;
     public List<string> compatibleRight;
+    public float weight;
 }
