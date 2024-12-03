@@ -50838,14 +50838,6 @@ PrefabInstance:
       propertyPath: tilemap
       value: 
       objectReference: {fileID: 1383361254}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: gridWidth
-      value: 125
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: gridHeight
-      value: 125
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
