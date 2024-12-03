@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb7ed0396fcdf843872c90e443f5747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 25
-  gridHeight: 25
+  gridWidth: 91
+  gridHeight: 52
   tilemap: {fileID: 0}
   tileDataList:
   - name: Grass1
@@ -98,6 +98,7 @@ MonoBehaviour:
     - WaterSE
     - WaterS
     - WaterE
+    weight: 0.225
   - name: Grass2
     tile: {fileID: 11400000, guid: 2cafbabd95c73cd4e8e63a59eb9c633d, type: 2}
     compatibleUp:
@@ -148,6 +149,7 @@ MonoBehaviour:
     - WaterSE
     - WaterS
     - WaterE
+    weight: 0.225
   - name: Grass3
     tile: {fileID: 11400000, guid: c7545284b6654b241be74ba068799a6a, type: 2}
     compatibleUp:
@@ -198,6 +200,7 @@ MonoBehaviour:
     - WaterSE
     - WaterS
     - WaterE
+    weight: 0.225
   - name: Grass4
     tile: {fileID: 11400000, guid: 4cbd225d6a62f0d4ca63beb0c7e784d5, type: 2}
     compatibleUp:
@@ -248,6 +251,7 @@ MonoBehaviour:
     - WaterSE
     - WaterS
     - WaterE
+    weight: 0.225
   - name: Water
     tile: {fileID: 11400000, guid: e1969421125bab5438ae5c72f30c71ab, type: 2}
     compatibleUp:
@@ -262,26 +266,15 @@ MonoBehaviour:
     compatibleRight:
     - WaterNSW
     - Water
+    weight: 0.000012
   - name: WaterNSE
     tile: {fileID: 11400000, guid: f4648b32d169b1b4e86dfd59e8ebf058, type: 2}
     compatibleUp:
-    - Water
     - WaterNSE
-    - WaterNSW
-    - WaterNS
-    - WaterSEW
     - WaterSE
-    - WaterSW
-    - WaterS
     compatibleDown:
-    - Water
     - WaterNSE
-    - WaterNSW
-    - WaterNS
-    - WaterNEW
     - WaterNE
-    - WaterNW
-    - WaterN
     compatibleLeft:
     - Grass1
     - Grass2
@@ -290,65 +283,31 @@ MonoBehaviour:
     compatibleRight:
     - Water
     - WaterNSW
-    - WaterNEW
-    - WaterNW
-    - WaterSEW
-    - WaterSW
-    - WaterEW
-    - WaterW
+    weight: 0.007142
   - name: WaterNSW
     tile: {fileID: 11400000, guid: 3b310b4846bb21c4d99d6d25a2dbc021, type: 2}
     compatibleUp:
-    - Water
-    - WaterNSE
     - WaterNSW
-    - WaterNS
-    - WaterSEW
-    - WaterSE
     - WaterSW
-    - WaterS
     compatibleDown:
-    - Water
-    - WaterNSE
     - WaterNSW
-    - WaterNS
-    - WaterNEW
-    - WaterNE
     - WaterNW
-    - WaterN
     compatibleLeft:
     - Water
     - WaterNSE
-    - WaterNEW
-    - WaterNE
-    - WaterSEW
-    - WaterSE
-    - WaterEW
-    - WaterE
     compatibleRight:
     - Grass1
     - Grass2
     - Grass3
     - Grass4
+    weight: 0.007142
   - name: WaterNS
     tile: {fileID: 11400000, guid: 5b7f8366cb6bc3a458d09407571f6405, type: 2}
     compatibleUp:
-    - Water
-    - WaterNSE
-    - WaterNSW
     - WaterNS
-    - WaterSEW
-    - WaterSE
-    - WaterSW
     - WaterS
     compatibleDown:
-    - Water
-    - WaterNSE
-    - WaterNSW
     - WaterNS
-    - WaterNEW
-    - WaterNE
-    - WaterNW
     - WaterN
     compatibleLeft:
     - Grass1
@@ -360,51 +319,29 @@ MonoBehaviour:
     - Grass2
     - Grass3
     - Grass4
+    weight: 0.007142
   - name: WaterNEW
     tile: {fileID: 11400000, guid: 2a8c4d7992e2eeb438a261f2d46c91d7, type: 2}
     compatibleUp:
     - Water
-    - WaterNSE
-    - WaterNSW
-    - WaterNS
     - WaterSEW
-    - WaterSE
-    - WaterSW
-    - WaterS
     compatibleDown:
     - Grass1
     - Grass2
     - Grass3
     - Grass4
     compatibleLeft:
-    - Water
-    - WaterNSE
     - WaterNEW
     - WaterNE
-    - WaterSEW
-    - WaterSE
-    - WaterEW
-    - WaterE
     compatibleRight:
-    - Water
-    - WaterNSW
     - WaterNEW
     - WaterNW
-    - WaterSEW
-    - WaterSW
-    - WaterEW
-    - WaterW
+    weight: 0.007142
   - name: WaterNE
     tile: {fileID: 11400000, guid: c0f100e6d73c8ab4f8f837c296411f0e, type: 2}
     compatibleUp:
-    - Water
     - WaterNSE
-    - WaterNSW
-    - WaterNS
-    - WaterSEW
     - WaterSE
-    - WaterSW
-    - WaterS
     compatibleDown:
     - Grass1
     - Grass2
@@ -416,54 +353,32 @@ MonoBehaviour:
     - Grass3
     - Grass4
     compatibleRight:
-    - Water
-    - WaterNSW
     - WaterNEW
     - WaterNW
-    - WaterSEW
-    - WaterSW
-    - WaterEW
-    - WaterW
+    weight: 0.007142
   - name: WaterNW
     tile: {fileID: 11400000, guid: a060506eb99984944a71caad6ec48ba8, type: 2}
     compatibleUp:
-    - Water
-    - WaterNSE
     - WaterNSW
-    - WaterNS
-    - WaterSEW
-    - WaterSE
     - WaterSW
-    - WaterS
     compatibleDown:
     - Grass1
     - Grass2
     - Grass3
     - Grass4
     compatibleLeft:
-    - Water
-    - WaterNSE
     - WaterNEW
     - WaterNE
-    - WaterSEW
-    - WaterSE
-    - WaterEW
-    - WaterE
     compatibleRight:
     - Grass1
     - Grass2
     - Grass3
     - Grass4
+    weight: 0.007142
   - name: WaterN
     tile: {fileID: 11400000, guid: 0fc5c7592f034a142ae77958d3847dc4, type: 2}
     compatibleUp:
-    - Water
-    - WaterNSE
-    - WaterNSW
     - WaterNS
-    - WaterSEW
-    - WaterSE
-    - WaterSW
     - WaterS
     compatibleDown:
     - Grass1
@@ -480,6 +395,7 @@ MonoBehaviour:
     - Grass2
     - Grass3
     - Grass4
+    weight: 0.007142
   - name: WaterSEW
     tile: {fileID: 11400000, guid: bcdec489ffd22d74ba919b5276781dbf, type: 2}
     compatibleUp:
@@ -489,31 +405,14 @@ MonoBehaviour:
     - Grass4
     compatibleDown:
     - Water
-    - WaterNSE
-    - WaterNSW
-    - WaterNS
     - WaterNEW
-    - WaterNE
-    - WaterNW
-    - WaterN
     compatibleLeft:
-    - Water
-    - WaterNSE
-    - WaterNEW
-    - WaterNE
     - WaterSEW
     - WaterSE
-    - WaterEW
-    - WaterE
     compatibleRight:
-    - Water
-    - WaterNSW
-    - WaterNEW
-    - WaterNW
     - WaterSEW
     - WaterSW
-    - WaterEW
-    - WaterW
+    weight: 0.007142
   - name: WaterSE
     tile: {fileID: 11400000, guid: bc12e8dee1986824b8687aa1b98ded85, type: 2}
     compatibleUp:
@@ -522,28 +421,17 @@ MonoBehaviour:
     - Grass3
     - Grass4
     compatibleDown:
-    - Water
     - WaterNSE
-    - WaterNSW
-    - WaterNS
-    - WaterNEW
     - WaterNE
-    - WaterNW
-    - WaterN
     compatibleLeft:
     - Grass1
     - Grass2
     - Grass3
     - Grass4
     compatibleRight:
-    - Water
-    - WaterNSW
-    - WaterNEW
-    - WaterNW
     - WaterSEW
     - WaterSW
-    - WaterEW
-    - WaterW
+    weight: 0.007142
   - name: WaterSW
     tile: {fileID: 11400000, guid: 7a8adc76ba43a1e43b5dbd98a4f982da, type: 2}
     compatibleUp:
@@ -552,28 +440,17 @@ MonoBehaviour:
     - Grass3
     - Grass4
     compatibleDown:
-    - Water
-    - WaterNSE
     - WaterNSW
-    - WaterNS
-    - WaterNEW
-    - WaterNE
     - WaterNW
-    - WaterN
     compatibleLeft:
-    - Water
-    - WaterNSE
-    - WaterNEW
-    - WaterNE
     - WaterSEW
     - WaterSE
-    - WaterEW
-    - WaterE
     compatibleRight:
     - Grass1
     - Grass2
     - Grass3
     - Grass4
+    weight: 0.007142
   - name: WaterS
     tile: {fileID: 11400000, guid: 068aba8d51e1a43479b8e73ea3938de8, type: 2}
     compatibleUp:
@@ -582,13 +459,7 @@ MonoBehaviour:
     - Grass3
     - Grass4
     compatibleDown:
-    - Water
-    - WaterNSE
-    - WaterNSW
     - WaterNS
-    - WaterNEW
-    - WaterNE
-    - WaterNW
     - WaterN
     compatibleLeft:
     - Grass1
@@ -600,6 +471,7 @@ MonoBehaviour:
     - Grass2
     - Grass3
     - Grass4
+    weight: 0.007142
   - name: WaterEW
     tile: {fileID: 11400000, guid: 63f7a7497c42874499045c3d8387ecad, type: 2}
     compatibleUp:
@@ -613,23 +485,12 @@ MonoBehaviour:
     - Grass3
     - Grass4
     compatibleLeft:
-    - Water
-    - WaterNSE
-    - WaterNEW
-    - WaterNE
-    - WaterSEW
-    - WaterSE
     - WaterEW
     - WaterE
     compatibleRight:
-    - Water
-    - WaterNSW
-    - WaterNEW
-    - WaterNW
-    - WaterSEW
-    - WaterSW
     - WaterEW
     - WaterW
+    weight: 0.007142
   - name: WaterE
     tile: {fileID: 11400000, guid: ba9cd87e2ca2f5b4a94d78f1d212bb3d, type: 2}
     compatibleUp:
@@ -648,14 +509,9 @@ MonoBehaviour:
     - Grass3
     - Grass4
     compatibleRight:
-    - Water
-    - WaterNSW
-    - WaterNEW
-    - WaterNW
-    - WaterSEW
-    - WaterSW
     - WaterEW
     - WaterW
+    weight: 0.007142
   - name: WaterW
     tile: {fileID: 11400000, guid: 8bde1ce404b334d4b995e0d78cc0c820, type: 2}
     compatibleUp:
@@ -669,12 +525,6 @@ MonoBehaviour:
     - Grass3
     - Grass4
     compatibleLeft:
-    - Water
-    - WaterNSE
-    - WaterNEW
-    - WaterNE
-    - WaterSEW
-    - WaterSE
     - WaterEW
     - WaterE
     compatibleRight:
@@ -682,3 +532,4 @@ MonoBehaviour:
     - Grass2
     - Grass3
     - Grass4
+    weight: 0.007142
