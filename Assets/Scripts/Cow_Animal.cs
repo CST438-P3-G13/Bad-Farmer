@@ -129,7 +129,7 @@ public class Cow_Animal : MonoBehaviour
         switch (happinessState)
         {
             case HappinessState.Happy:
-                runSpeed = 20f;
+                runSpeed =5f;
                 break;
             case HappinessState.Neutral:
                 runSpeed = 40f;
