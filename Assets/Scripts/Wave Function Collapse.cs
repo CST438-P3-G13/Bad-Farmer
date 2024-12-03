@@ -17,6 +17,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     private TileData[,] grid;
     private int uncollapsedTiles;
+    private int collapseCount = 0;
     private GameManager _gameManager;
 
     private List<int> dir = new List<int>() { -1, 0, 1, 0, -1 };
@@ -41,11 +42,12 @@ public class WaveFunctionCollapse : MonoBehaviour
             }
         }
 
-        while (uncollapsedTiles > 0)
+        while (uncollapsedTiles > 0 && collapseCount < (gridWidth * gridHeight))
         {
+            collapseCount++;
             Vector2Int cell = GetLowestEntropyCell(possibleTiles);
             CollapseCell(cell, possibleTiles);
-            List<HashSet<string>> directionalCompatibilities = GetCompatibleInDirections(cell, possibleTiles);
+            // List<HashSet<string>> directionalCompatibilities = GetCompatibleInDirections(cell, possibleTiles);
             
             int[,] visited = new int[gridWidth, gridHeight];
             for (int i = 0; i < gridWidth; i++)
@@ -144,6 +146,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             randomVal -= tile.weight;
         }
 
+        Debug.Log("Choosing fallback tile. Action needed.");
         return tiles[0]; // Return first tile as a fallback (this shouldn't happen)
     }
 
@@ -181,13 +184,15 @@ public class WaveFunctionCollapse : MonoBehaviour
                 List<TileData> newPossibilities = possibleTiles[newX, newY].FindAll(t => directionalCompatibilities[i].Contains(t.name)); // Get all compatible tiles out of the current possibilities
                 if (newPossibilities.Count == 0)
                 {
-                    newPossibilities = new List<TileData>() { tileDataList[0] };
+                    // newPossibilities = new List<TileData>() { tileDataList[0] }; // Set tile to fallback (bad thing happened)
+                    Debug.Log("Tile was trying to collapse, but there were no possible tiles to choose from");
+                    Application.Quit();
                 }
                 
                 if (newPossibilities.Count < possibleTiles[newX, newY].Count)
                 {
                     possibleTiles[newX, newY] = newPossibilities;
-                    propQueue.Enqueue(cell);
+                    propQueue.Enqueue(new Vector2Int(newX, newY));
                     visited[newX, newY] = 1;
                 }
             }
