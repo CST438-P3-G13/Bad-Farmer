@@ -1,21 +1,18 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-// The Task class will hold most of the logic for the Farm Task mechanic
 public class TaskManager : MonoBehaviour
 {
-    [HideInInspector]
     public static TaskManager Instance { get; private set; }
-    
-    // public List<FarmTask> tasks; Uncomment when the Task class is created
-    public GameObject taskUI;
 
-    private DifficultyManager _difficultyManager;
-    // private List<FarmTask> _currTaskList; Uncomment when the Task class is created
-    private int _numTasks;
-    
+    public GameObject taskUI; 
+    public TextMeshProUGUI taskText; 
+    public List<FarmTask> tasks; 
+
+    private float taskInterval = 60f; 
+    private float taskTimer;
+
     private void Awake()
     {
         if (Instance == null)
@@ -31,25 +28,62 @@ public class TaskManager : MonoBehaviour
 
     private void Start()
     {
-        _difficultyManager = DifficultyManager.Instance;
+        tasks = new List<FarmTask>();
+        AddRandomTask();
+
+        taskTimer = taskInterval;
     }
 
     private void Update()
     {
-        // Iterate through the tasks and check if any of them are fulfilled or expired
-        // Generate a number of timestamps within the day's time limit to reveal tasks
+        taskTimer -= Time.deltaTime;
+
+        if (taskTimer <= 0)
+        {
+            AddRandomTask();
+            taskTimer = taskInterval; 
+        }
     }
 
-    /**
-     * <returns>Two ints. Num tasks and </returns>
-     */
-    public void GenerateTasks()
+    private void AddRandomTask()
     {
-        int taskNum = _difficultyManager.ProvideTaskCount();
-        
-        // Randomly choose this amount of tasks?
-        // If tasks each have difficulty ratings, then generate different combinations of tasks
-        // with the ratings sums less than or equal to this amount?
+        List<string> taskPool = new List<string>
+        {
+            "Milking the cow",
+            "Watering the crops",
+            "Defeathering a chicken",
+            "Cleaning the pig"
+        };
 
+        List<string> availableTasks = taskPool.FindAll(task =>
+            !tasks.Exists(existingTask => existingTask.description == task));
+
+        if (availableTasks.Count > 0)
+        {
+            string newTaskDescription = availableTasks[Random.Range(0, availableTasks.Count)];
+
+            tasks.Add(new FarmTask(newTaskDescription));
+
+            Debug.Log($"New Task Added: {newTaskDescription}"); 
+
+            UpdateTaskUI();
+        }
+        else
+        {
+            Debug.Log("No more tasks available to add.");
+        }
+    }
+
+    private void UpdateTaskUI()
+    {
+        if (tasks.Count == 0 || taskText == null) return;
+
+        string taskListText = "Tasks:\n";
+        foreach (FarmTask task in tasks)
+        {
+            taskListText += $"- {task.description}\n";
+        }
+
+        taskText.text = taskListText;
     }
 }
