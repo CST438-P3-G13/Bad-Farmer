@@ -50839,80 +50839,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1383361254}
     - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[0].weight
-      value: 0.125
+      propertyPath: gridWidth
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[1].weight
-      value: 0.125
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[2].weight
-      value: 0.125
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[3].weight
-      value: 0.125
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[4].weight
-      value: 0.024
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[5].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[6].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[7].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[8].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[9].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[10].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[11].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[12].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[13].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[14].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[15].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[16].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[17].weight
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868615081610735448, guid: f1f78eb0d13f4be4a9bf095bbad40f7d, type: 3}
-      propertyPath: tileDataList.Array.data[18].weight
-      value: 0.034
+      propertyPath: gridHeight
+      value: 125
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

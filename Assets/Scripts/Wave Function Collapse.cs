@@ -15,12 +15,18 @@ public class WaveFunctionCollapse : MonoBehaviour
     public Tilemap tilemap;
     public List<TileData> tileDataList; // List of all tile types
 
-    private TileData[,] grid;
-    private int uncollapsedTiles;
+    private TileData[,] grid;  // Grid representing the collapsed tiles
+    private int uncollapsedTiles;  // Number of uncollapsed tiles
     private int collapseCount = 0;
     private GameManager _gameManager;
 
-    private List<int> dir = new List<int>() { -1, 0, 1, 0, -1 };
+    // Tilemap uses world coordinates, not typical array coordinates
+    private Vector2Int[] directions = new Vector2Int[] {
+        new Vector2Int(0, 1),  // Up: move up, increase y
+        new Vector2Int(1, 0),  // Right: move right, increase x
+        new Vector2Int(0, -1), // Down: move down, decrease y
+        new Vector2Int(-1, 0)  // Left: move left, decrease x
+    };
 
     private void Start()
     {
@@ -30,10 +36,55 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     void GenerateGrid()
     {
-        grid = new TileData[gridWidth, gridHeight];
-        List<TileData>[,] possibleTiles = new List<TileData>[gridWidth, gridHeight]; // Will be used to store the list of tiles that each tile can possibly be, and to easily access entropy
+        bool success = false;
+    
+        // Retry the collapse process a certain number of times before giving up
+        int maxRetries = 100;
+        int retries = 0;
+
+        while (!success && retries < maxRetries)
+        {
+            retries++;
+            success = TryCollapseGrid();
         
-        // Initialize all tiles to have max entropy
+            if (!success)
+            {
+                Debug.Log("Contradiction detected. Restarting the wave function collapse...");
+                ResetGrid(); // Reset grid if contradiction is found
+            }
+        }
+    
+        if (!success)
+        {
+            Debug.LogError("Failed to complete the collapse after maximum retries.");
+            Application.Quit();
+            return;
+        }
+    }
+    
+    void ResetGrid()
+    {
+        uncollapsedTiles = gridWidth * gridHeight;
+        collapseCount = 0;
+
+        // Reinitialize all cells with all possible tiles
+        List<TileData>[,] possibleTiles = new List<TileData>[gridWidth, gridHeight];
+        for (int i = 0; i < gridWidth; i++)
+        {
+            for (int j = 0; j < gridHeight; j++)
+            {
+                possibleTiles[i, j] = new List<TileData>(tileDataList);
+                grid[i, j] = null; // Clear previously collapsed state
+            }
+        }
+    }
+    
+    bool TryCollapseGrid()
+    {
+        grid = new TileData[gridWidth, gridHeight];
+        List<TileData>[,] possibleTiles = new List<TileData>[gridWidth, gridHeight]; // Will store possible tile types for each cell
+    
+        // Initialize all tiles to have max entropy (all tile possibilities)
         for (int i = 0; i < gridWidth; i++)
         {
             for (int j = 0; j < gridHeight; j++)
@@ -46,28 +97,27 @@ public class WaveFunctionCollapse : MonoBehaviour
         {
             collapseCount++;
             Vector2Int cell = GetLowestEntropyCell(possibleTiles);
-            CollapseCell(cell, possibleTiles);
-            // List<HashSet<string>> directionalCompatibilities = GetCompatibleInDirections(cell, possibleTiles);
-            
-            int[,] visited = new int[gridWidth, gridHeight];
-            for (int i = 0; i < gridWidth; i++)
+            if (cell == Vector2Int.zero && uncollapsedTiles != (gridWidth * gridHeight))
             {
-                for (int j = 0; j < gridHeight; j++)
-                {
-                    visited[i, j] = 0;
-                }
+                Debug.Log("Zero cells found to collapse, but not all cells are collapsed.");
+                return false;  // Contradiction, return false to indicate failure
             }
+            CollapseCell(cell, possibleTiles);
             PropagateConstraints(cell, possibleTiles);
         }
 
+        // Update the tilemap with the collapsed grid
         for (int i = 0; i < gridWidth; i++)
         {
             for (int j = 0; j < gridHeight; j++)
             {
-                tilemap.SetTile(new Vector3Int(i, j, 0), grid[i, j].tile);
+                tilemap.SetTile(new Vector3Int(i, j, 0), grid[i, j]?.tile);
             }
         }
+
+        return true;  // Return true when the collapse process completes successfully
     }
+
 
     Vector2Int GetLowestEntropyCell(List<TileData>[,] possibleTiles)
     {
@@ -78,7 +128,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         {
             for (int j = 0; j < gridHeight; j++)
             {
-                if (grid[i, j] != null) continue;
+                if (grid[i, j] != null) continue;  // Skip already collapsed cells
                 
                 float entropy = CalculateWeightedEntropy(possibleTiles[i, j]);
                 if (entropy > 0 && entropy < lowestEntropy)
@@ -114,6 +164,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         if (possibleTiles[x, y].Count == 0 || grid[x, y] != null)
         {
             Debug.Log("Error in Wave Function Collapse. Attempting to collapse invalid or already collapsed cell.");
+            Application.Quit();
             return;
         }
         
@@ -133,11 +184,18 @@ public class WaveFunctionCollapse : MonoBehaviour
             totalWeight += tile.weight;
         }
 
+        if (totalWeight <= 0)
+        {
+            Debug.Log("Total weights for collapsing cell is less than or equal to zero.");
+            Application.Quit();
+            return null;
+        }
+
         float randomVal = Random.value * totalWeight;
 
         foreach (var tile in tiles)
         {
-            // Return first tile that has a greater weight
+            // Return the first tile that has a greater weight
             if (randomVal < tile.weight)
             {
                 return tile;
@@ -146,8 +204,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             randomVal -= tile.weight;
         }
 
-        Debug.Log("Choosing fallback tile. Action needed.");
-        return tiles[0]; // Return first tile as a fallback (this shouldn't happen)
+        return tiles[0]; // Fallback tile (shouldn't happen)
     }
 
     void PropagateConstraints(Vector2Int cell, List<TileData>[,] possibleTiles)
@@ -162,38 +219,39 @@ public class WaveFunctionCollapse : MonoBehaviour
         {
             var curr = propQueue.Dequeue();
 
-            // Get ready for next function calls by collecting all possible tile types for neighbors in each direction
-            var directionalCompatibilities = GetCompatibleInDirections(cell, possibleTiles);
+            // Get compatible tiles for the current cell
+            var directionalCompatibilities = GetCompatibleInDirections(curr, possibleTiles);
 
+            // Check the four directions: up, right, down, left
             for (int i = 0; i < 4; i++)
             {
-                int newX = curr.x + dir[i];
-                int newY = curr.y + dir[i + 1];
+                int newX = curr.x + directions[i].x;  // Correct direction based on current i
+                int newY = curr.y + directions[i].y;  // Correct direction based on current i
 
                 if (newX < 0 || newY < 0 || newX >= gridWidth || newY >= gridHeight || visited[newX, newY] == 1 || grid[newX, newY] != null)
                 {
-                    Debug.Log("x: " + newX + ", y: " + newY);
                     continue;
                 }
-                
+
                 if (possibleTiles[newX, newY].Count <= 1)
                 {
                     continue;
                 }
-                
-                List<TileData> newPossibilities = possibleTiles[newX, newY].FindAll(t => directionalCompatibilities[i].Contains(t.name)); // Get all compatible tiles out of the current possibilities
+
+                // Get compatible tiles for the neighbor based on the current direction
+                List<TileData> newPossibilities = possibleTiles[newX, newY].FindAll(t => directionalCompatibilities[i].Contains(t.name));
+
                 if (newPossibilities.Count == 0)
                 {
-                    // newPossibilities = new List<TileData>() { tileDataList[0] }; // Set tile to fallback (bad thing happened)
-                    Debug.Log("Tile was trying to collapse, but there were no possible tiles to choose from");
-                    Application.Quit();
+                    newPossibilities = new List<TileData>() { tileDataList[0] }; // Fallback in case no valid possibilities are found
+                    return; // Exit if no valid options are found
                 }
-                
+
                 if (newPossibilities.Count < possibleTiles[newX, newY].Count)
                 {
                     possibleTiles[newX, newY] = newPossibilities;
-                    propQueue.Enqueue(new Vector2Int(newX, newY));
-                    visited[newX, newY] = 1;
+                    propQueue.Enqueue(new Vector2Int(newX, newY));  // Re-enqueue to re-evaluate this neighbor
+                    visited[newX, newY] = 1;  // Mark as visited
                 }
             }
         }
@@ -205,6 +263,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         HashSet<string> rightCompatible = new HashSet<string>();
         HashSet<string> upCompatible = new HashSet<string>();
         HashSet<string> downCompatible = new HashSet<string>();
+
         foreach (var possibility in possibleTiles[cell.x, cell.y])
         {
             foreach (var compatibility in possibility.compatibleLeft)
@@ -229,10 +288,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     }
 }
 
-
-/**
- * <summary>Class to store necessary information for each tile. Such as an associated TileBase and compatible tiles.</summary>
- */
+// TileData class to represent each tile's compatibility and weight
 [System.Serializable]
 public class TileData
 {
