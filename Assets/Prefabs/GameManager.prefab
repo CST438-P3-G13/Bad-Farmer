@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridWidth: 91
   gridHeight: 52
+  xOffset: 46
+  yOffset: 27
   tilemap: {fileID: 0}
   tileDataList:
   - name: Grass1
