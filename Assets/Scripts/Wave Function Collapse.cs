@@ -14,7 +14,8 @@ public class WaveFunctionCollapse : MonoBehaviour
     public int yOffset = 0;
 
     [Header("TileMap")]
-    public Tilemap tilemap;
+    public Tilemap grassTilemap;
+    public Tilemap colliderTileMap;
     public List<TileData> tileDataList; // List of all tile types
 
     private TileData[,] grid;  // Grid representing the collapsed tiles
@@ -114,9 +115,15 @@ public class WaveFunctionCollapse : MonoBehaviour
         {
             for (int j = 0; j < gridHeight; j++)
             {
-                if (tilemap.HasTile(new Vector3Int(i - xOffset, j - yOffset, 0))) continue;
-                tilemap.SetTile(new Vector3Int(i - xOffset, j - yOffset, 0), grid[i, j]?.tile);
-                // Use a custom tile datatype. They can have metadata, like "Water" or "Ground" for other scripts to use
+                if (grassTilemap.HasTile(new Vector3Int(i - xOffset, j - yOffset, 0)) || colliderTileMap.HasTile(new Vector3Int(i - xOffset, j - yOffset, 0))) continue;
+                if (grid[i, j].name.Contains("Water"))
+                {
+                    colliderTileMap.SetTile(new Vector3Int(i - xOffset, j - yOffset, 0), grid[i, j].tile);
+                }
+                else
+                {
+                    grassTilemap.SetTile(new Vector3Int(i - xOffset, j - yOffset, 0), grid[i, j]?.tile);
+                }
             }
         }
 
