@@ -20,6 +20,11 @@ public class Cow_Animal : MonoBehaviour
     public Transform player;
     public Transform penArea;
 
+    private bool inPen = false;
+    private bool leavePen = false;
+    private float penTimer = 0f;
+    private Transform pen;
+    
     [Range(0f, 1f)]
     public float idle = 0.25f;
 
@@ -185,5 +190,10 @@ public class Cow_Animal : MonoBehaviour
     {
         Vector2 direction = player.position - transform.position;
         rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, direction.normalized * runSpeed, Time.deltaTime * 5);
+    }
+
+    private void InsidePen()
+    {
+        
     }
 }
