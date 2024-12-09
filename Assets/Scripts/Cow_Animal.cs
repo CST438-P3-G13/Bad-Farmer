@@ -25,79 +25,69 @@ public class Cow_Animal : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
         SetHappinessState(HappinessState.Happy); // Initialize happiness
 
-        if (AnimalManager.Instance != null)
-    {
-        AnimalManager.Instance.animalHappiness[gameObject] = HappinessState.Happy;
-    }
+        if (AnimalManager.Instance != null) 
+        {
+            AnimalManager.Instance.animalHappiness[gameObject] = HappinessState.Happy; 
+        }
     }
 
     // Update is called once per frame
-    void Update()
-{
-    if (isInteracting)
+    void Update() 
     {
-        if (Time.time < interactionEndTime)
+        if (isInteracting)
         {
-            horizontalMove = 0f;
-            anim.SetBool("isRunning", false);
-            return;
-        }
-        else
-        {
-            isInteracting = false;
-        }
-    }
-
-    if (Time.time > nextDirectionChange + randomDelay)
-    {
-        randomDelay = Random.Range(0.2f, 1f);
-
-        if (Random.value < idle)
-        {
-            horizontalMove = 0f;
-            rb.linearVelocity = Vector2.zero; // Stop movement
-            IdleBehavior();
-        }
-        else
-        {
-            float direction = Random.value < 0.5f ? -1 : 1; // Randomly choose direction
-            float randomSpeed = runSpeed + Random.Range(-speedVar, speedVar);
-
-            if (Random.value < 0.5f) // 50% chance for horizontal or vertical movement
+            if (Time.time < interactionEndTime)
             {
-                horizontalMove = direction * randomSpeed; // Horizontal movement
-                rb.linearVelocity = new Vector2(horizontalMove, 0f); // Apply horizontal velocity
+                horizontalMove = 0f;
+                // anim.SetBool("isRunning", false);
+                return;
             }
             else
             {
-                float verticalMove = direction * randomSpeed; // Vertical movement
-                rb.linearVelocity = new Vector2(0f, verticalMove); // Apply vertical velocity
+                isInteracting = false;
             }
         }
-        nextDirectionChange = Time.time + directionInterval;
-    }
 
-    // Update animation state
-    anim.SetBool("isRunning", rb.linearVelocity != Vector2.zero);
+        if (Time.time > nextDirectionChange + randomDelay)
+        {
+            randomDelay = Random.Range(0.2f, 1f);
 
-    // Flip sprite for horizontal movement
-    if (rb.linearVelocity.x < 0f)
-    {
-        transform.localScale = new Vector3(-1, 1, 1);
-    }
-    else if (rb.linearVelocity.x > 0f)
-    {
-        transform.localScale = new Vector3(1, 1, 1);
-    }
-}
+            if (Random.value < idle)
+            {
+                horizontalMove = 0f;
+                rb.linearVelocity = Vector2.zero; // Stop movement
+                // IdleBehavior();
+            }
+            else
+            {
+                float direction = Random.value < 0.5f ? -1 : 1; // Randomly choose direction
+                float randomSpeed = runSpeed + Random.Range(-speedVar, speedVar);
 
+                if (Random.value < 0.5f) // 50% chance for horizontal or vertical movement
+                {
+                    horizontalMove = direction * randomSpeed; // Horizontal movement
+                    rb.linearVelocity = new Vector2(horizontalMove, 0f); // Apply horizontal velocity
+                }
+                else
+                {
+                    float verticalMove = direction * randomSpeed; // Vertical movement
+                    rb.linearVelocity = new Vector2(0f, verticalMove); // Apply vertical velocity
+                }
+            }
+            nextDirectionChange = Time.time + directionInterval;
+        }
 
-    private void IdleBehavior()
-    {
-        anim.SetTrigger("Idle");
+        // Flip sprite for horizontal movement
+        if (rb.linearVelocity.x < 0f)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (rb.linearVelocity.x > 0f)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -107,7 +97,7 @@ public class Cow_Animal : MonoBehaviour
             isInteracting = true;
             interactionEndTime = Time.time + interactionTime;
             horizontalMove = 0f;
-            anim.SetBool("isRunning", false);
+            // anim.SetBool("isRunning", false);
         }
     }
 
