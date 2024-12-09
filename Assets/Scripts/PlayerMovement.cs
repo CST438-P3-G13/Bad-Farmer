@@ -12,36 +12,42 @@ public class PlayerMovement : MonoBehaviour
     public bool currentlyRunning = false;
     public float stamina = 100f;
     public Slider StaminaBar;
-    private void Update()
-    {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        // Vector3 movement = new Vector3(horizontal, 0, vertical);
-        // transform.Translate(movement * speed * Time.deltaTime);
-        
-        DoublePressed();
-        float speed;
-        if (currentlyRunning)
-        {
-            speed = walkingSpeed * runningSpeed;
-        }
-        else
-        {
-            speed = walkingSpeed;
-        }
-        
-        
-        Vector3 movement = new Vector3(horizontal,vertical);
-        transform.position += movement * speed * Time.deltaTime;
+    public float interactionRadius = 2f; 
+    public LayerMask interactableLayer; 
 
-        if (horizontal == 0 && vertical == 0)
-        {
-            currentlyRunning = false;
-        }
-        StaminaFunc();
-        UpdateStaminaBar();
-        
+    private void Update()
+{
+    // Get input values for movement
+    float horizontal = Input.GetAxisRaw("Horizontal"); // Use GetAxisRaw for instant response
+    float vertical = Input.GetAxisRaw("Vertical");
+
+    // Calculate movement direction
+    Vector3 movement = new Vector3(horizontal, vertical, 0f).normalized; // Normalize for consistent speed in diagonal movement
+
+    // Determine speed
+    DoublePressed(); // Check for double-tap to sprint
+    float speed = currentlyRunning ? walkingSpeed * runningSpeed : walkingSpeed;
+
+    // Apply movement
+    transform.position += movement * speed * Time.deltaTime;
+
+    // If no input, stop sprinting
+    if (movement == Vector3.zero)
+    {
+        currentlyRunning = false;
     }
+
+    // Handle stamina logic
+    StaminaFunc();
+    UpdateStaminaBar();
+
+    // Interaction logic (complete tasks)
+    if (Input.GetKeyDown(KeyCode.E))
+    {
+        TryCompleteTask();
+    }
+}
+
 
 
     string TrackingKey()
@@ -112,8 +118,43 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void TryCompleteTask(){
+        Collider2D[] nearbyAnimals = Physics2D.OverlapCircleAll(transform.position, interactionRadius, interactableLayer);
+
+        foreach(var obj in nearbyAnimals){
+            if(obj.CompareTag("Cow") && TaskManager.Instance.tasks.Exists(t => t.description == "Milking the cow")){
+                TaskManager.Instance.CompleteTask("Milking the cow");
+                return;
+            }
+            else if(obj.CompareTag("Pig") && TaskManager.Instance.tasks.Exists(t => t.description == "Cleaning the pig")){
+                TaskManager.Instance.CompleteTask("Cleaning the pig");
+                return;
+            }
+            else if(obj.CompareTag("Chicken") && TaskManager.Instance.tasks.Exists(t => t.description == "Defeathering a chicken")){
+                TaskManager.Instance.CompleteTask("Defeathering a chicken");
+                return;
+            }
+            else if(obj.name == "Crops" && TaskManager.Instance.tasks.Exists(t => t.description == "Watering the crops")){
+                TaskManager.Instance.CompleteTask("Watering the crops");
+                return;
+            }
+        }
+        Debug.Log("No tasks to complete nearby.");
+    }
+
     void UpdateStaminaBar()
+{
+    if (StaminaBar == null)
     {
-        StaminaBar.value = stamina;
+        Debug.LogWarning("StaminaBar is not assigned in the Inspector.");
+        return;
+    }
+    StaminaBar.value = stamina;
+}
+
+    
+    private void OnDrawGizmos(){
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position,interactionRadius);
     }
 }
