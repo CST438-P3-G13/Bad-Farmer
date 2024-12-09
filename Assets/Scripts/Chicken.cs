@@ -74,11 +74,11 @@ public class Chicken : MonoBehaviour
             nextDirectionChange = Time.time + directionInterval;
         }
 
-        if (rb.linearVelocity.x < 0f)
+        if (rb.linearVelocity.x > 0f)
         {
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * -1, transform.localScale.y, transform.localScale.z);
         }
-        else if (rb.linearVelocity.x > 0f)
+        else if (rb.linearVelocity.x < 0f)
         {
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
