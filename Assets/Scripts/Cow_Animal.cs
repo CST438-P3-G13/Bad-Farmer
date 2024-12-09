@@ -15,6 +15,10 @@ public class Cow_Animal : MonoBehaviour
     private bool isInteracting = false;
     public float interactionTime = 2f;
     private float interactionEndTime = 0f;
+    
+    private bool followingPlayer = false;
+    public Transform player;
+    public Transform penArea;
 
     [Range(0f, 1f)]
     public float idle = 0.25f;
@@ -37,6 +41,24 @@ public class Cow_Animal : MonoBehaviour
     // Update is called once per frame
     void Update()
 {
+    if (followingPlayer)
+    {
+        FollowingPlayer();
+        if (Vector3.Distance(transform.position, penArea.position) < 0.1f)
+        {
+            followingPlayer = false;
+            rb.linearVelocity = Vector2.zero;
+            anim.SetBool("isRunning", false);
+        }
+        return;
+    }
+
+    // if (followingPlayer && Vector3.Distance(transform.position, player.position) <= 0.1f)
+    // {
+    //     followingPlayer = false;
+    //     rb.linearVelocity = Vector2.zero;
+    //     anim.SetBool("isRunning", false);
+    // }
     if (isInteracting)
     {
         if (Time.time < interactionEndTime)
@@ -102,17 +124,31 @@ public class Cow_Animal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && !isInteracting)
+        // if (collision.CompareTag("Player") && !isInteracting)
+        if (collision.CompareTag("Player"))     
         {
             isInteracting = true;
             interactionEndTime = Time.time + interactionTime;
             horizontalMove = 0f;
+            followingPlayer = true;
             anim.SetBool("isRunning", false);
+        }else if (collision.CompareTag("Pen"))
+        {
+            // followingPlayer = false;
+            anim.SetBool("isRunning", false);
+            rb.linearVelocity = Vector2.zero;
         }
+        
     }
 
     void FixedUpdate()
     {
+
+        if (followingPlayer)
+        {
+            FollowingPlayer();
+            return;
+        }
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * Mathf.Sign(horizontalMove), 1f);
 
         if (hit)
@@ -145,4 +181,9 @@ public class Cow_Animal : MonoBehaviour
         Debug.Log($"{gameObject.name} is now {happinessState}, speed set to {runSpeed}");
     }
 
+    private void FollowingPlayer()
+    {
+        Vector2 direction = player.position - transform.position;
+        rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, direction.normalized * runSpeed, Time.deltaTime * 5);
+    }
 }
