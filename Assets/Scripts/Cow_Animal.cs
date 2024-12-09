@@ -25,6 +25,7 @@ public class Cow_Animal : MonoBehaviour
     private float penTimer = 0f;
     private Transform pen;
     
+    //eit 
     [Range(0f, 1f)]
     public float idle = 0.25f;
 
