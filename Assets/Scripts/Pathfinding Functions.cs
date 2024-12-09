@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Pathfinding;
+using Random = UnityEngine.Random;
 
 public class PathfindingFunctions : MonoBehaviour
 {
@@ -14,8 +15,8 @@ public class PathfindingFunctions : MonoBehaviour
 
     private Path path = null;
     private int currWaypoint = 0;
-    private HappinessState happinessState = HappinessState.Agitated;
-    private float delay = 1f;
+    // private HappinessState happinessState = HappinessState.Happy;
+    private float delay = .5f;
     private float time = 0f;
 
     private Seeker seeker;
@@ -29,10 +30,10 @@ public class PathfindingFunctions : MonoBehaviour
 
     private void Update()
     {
-        if (happinessState != HappinessState.Agitated)
-        {
-            return;
-        }
+        // if (happinessState != HappinessState.Agitated)
+        // {
+        //     return;
+        // }
 
         if (path == null)
         {
@@ -66,6 +67,7 @@ public class PathfindingFunctions : MonoBehaviour
     {
         if (seeker.IsDone())
         {
+            Debug.Log("Calculating path now");
             seeker.StartPath(rb.position, corners[GetTarget()].position, OnPathComplete);
         }
     }
@@ -79,10 +81,10 @@ public class PathfindingFunctions : MonoBehaviour
         }
     }
 
-    public void SetHappiness(HappinessState state)
-    {
-        happinessState = state;
-    }
+    // public void SetHappiness(HappinessState state)
+    // {
+    //     happinessState = state;
+    // }
 
     private int GetTarget()
     {
@@ -94,11 +96,20 @@ public class PathfindingFunctions : MonoBehaviour
             float currDist = Vector3.Distance(player.position, corners[i].position);
             if (currDist > maxDist)
             {
-                maxDist = currDist;
-                furthestCorner = i;
+                Vector2 dirToCorner = ((Vector2)corners[i].position - rb.position).normalized;
+                Vector2 dirToPlayer = ((Vector2)player.position - rb.position).normalized;
+                if (Vector2.Angle(dirToCorner, dirToPlayer) >= 90f)
+                {
+                    maxDist = currDist;
+                    furthestCorner = i;
+                }
             }
         }
 
+        if (maxDist < 0)
+        {
+            furthestCorner = Random.Range(0, 3);
+        }
         return furthestCorner;
     }
 }
