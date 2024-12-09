@@ -16,13 +16,9 @@ public class Cow_Animal : MonoBehaviour
     public float interactionTime = 2f;
     private float interactionEndTime = 0f;
     
-<<<<<<< Updated upstream
     private bool followingPlayer = false;
     public Transform player;
     public Transform penArea;
-=======
-    
->>>>>>> Stashed changes
 
     [Range(0f, 1f)]
     public float idle = 0.25f;

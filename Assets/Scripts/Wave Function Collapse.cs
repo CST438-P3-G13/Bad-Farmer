@@ -10,15 +10,19 @@ public class WaveFunctionCollapse : MonoBehaviour
     [Header("Grid Settings")]
     public int gridWidth = 25;
     public int gridHeight = 25;
+    public int xOffset = 0;
+    public int yOffset = 0;
 
     [Header("TileMap")]
-    public Tilemap tilemap;
+    public Tilemap grassTilemap;
+    public Tilemap colliderTileMap;
     public List<TileData> tileDataList; // List of all tile types
 
     private TileData[,] grid;  // Grid representing the collapsed tiles
     private int uncollapsedTiles;  // Number of uncollapsed tiles
     private int collapseCount = 0;
     private GameManager _gameManager;
+    private TileFlags waterFlag;
 
     // Tilemap uses world coordinates, not typical array coordinates
     private Vector2Int[] directions = new Vector2Int[] {
@@ -111,7 +115,15 @@ public class WaveFunctionCollapse : MonoBehaviour
         {
             for (int j = 0; j < gridHeight; j++)
             {
-                tilemap.SetTile(new Vector3Int(i, j, 0), grid[i, j]?.tile);
+                if (grassTilemap.HasTile(new Vector3Int(i - xOffset, j - yOffset, 0)) || colliderTileMap.HasTile(new Vector3Int(i - xOffset, j - yOffset, 0))) continue;
+                if (grid[i, j].name.Contains("Water"))
+                {
+                    colliderTileMap.SetTile(new Vector3Int(i - xOffset, j - yOffset, 0), grid[i, j].tile);
+                }
+                else
+                {
+                    grassTilemap.SetTile(new Vector3Int(i - xOffset, j - yOffset, 0), grid[i, j]?.tile);
+                }
             }
         }
 
