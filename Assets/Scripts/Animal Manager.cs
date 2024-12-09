@@ -13,6 +13,7 @@ public class AnimalManager : MonoBehaviour
     private float happinessUpdateInterval = 30f; 
     private float lastHappinessUpdateTime = 0f;
 
+
     private void Awake()
     {
         if (Instance == null)

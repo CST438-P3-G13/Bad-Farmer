@@ -35,10 +35,9 @@ public class WaveFunctionCollapse : MonoBehaviour
     private void Start()
     {
         uncollapsedTiles = gridWidth * gridHeight;
-        GenerateGrid();
     }
 
-    void GenerateGrid()
+    public void GenerateGrid()
     {
         bool success = false;
     

@@ -1,16 +1,22 @@
 using System;
 using UnityEngine;
+using Pathfinding;
 
 public class GameManager : MonoBehaviour
 {
     [HideInInspector]
     public static GameManager Instance { get; private set; }
 
-    public GameObject gameOverScreen; 
-    public GameObject pauseScreen;
+    public AstarPath AstarPath; 
+    public GameObject gameOverScreen;
+    public float dayTimer = 300f;
 
     private DifficultyManager _difficultyManager;
+    private AnimalManager _animalManager;
+    private SceneManagerScript _sceneManagerScript;
+    private WaveFunctionCollapse _waveFunctionCollapse;
     // Other managers
+    
     private int _playingState; // 0 for Main Menu, 1 for in game
     private int _day;
     private int _deathsAllowedToday;
@@ -41,12 +47,13 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
-        {
-            PauseGame();
-        }
         // Update time for day timer
+        dayTimer -= Time.deltaTime;
         // Check for game over
+        if (dayTimer <= 0f)
+        {
+            GameOver();
+        }
     }
 
     // New Game/Play/Continue button will link to this function
@@ -54,14 +61,22 @@ public class GameManager : MonoBehaviour
     {
         _playingState = 1;
         _day = 1; // Might change if we allow save data
-        // switch to game scene
+        _sceneManagerScript.LoadScene("MainScene");
+        Time.timeScale = 0;
+        _animalManager = GameObject.Find("AnimalManager").GetComponent<AnimalManager>();
+        // Start loading thing
+        
         StartNewDay();
+        
+        // Finish loading thing
+        Time.timeScale = 1;
     }
     
     public void GameOver()
     {
         // The game over screen button will link to a different function to change scene
         gameOverScreen.SetActive(true);
+        Time.timeScale = 0;
     }
     
     /**
@@ -81,13 +96,19 @@ public class GameManager : MonoBehaviour
         }
 
         _deathsToday = 0;
-        // Procedural generation, tasks, animals
+        dayTimer = 300f;
+        // Procedural generation
+        _waveFunctionCollapse.GenerateGrid();
+        AstarPath.Scan(AstarPath.graphs[0]);
+        
+        // Animals
+        // Call spawn animals function from animal manager
+        _animalManager.SpawnAnimals();
     }
 
-    public void PauseGame()
+    public void ToMainMenu()
     {
-        pauseScreen.SetActive(!pauseScreen.activeSelf);
-        Time.timeScale = pauseScreen.activeSelf ? 0f : 1f;
+        _playingState = 0;
     }
 
     public int GetDay()
