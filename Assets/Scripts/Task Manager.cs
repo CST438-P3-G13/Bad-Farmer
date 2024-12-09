@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -18,12 +19,12 @@ public class TaskManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(this);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -45,6 +46,16 @@ public class TaskManager : MonoBehaviour
         }
     }
 
+    public void CompleteTask(String newTaskDescription){
+        FarmTask task = tasks.Find(t => t.description == newTaskDescription);
+
+        if(task != null){
+            tasks.Remove(task);
+            Debug.Log($"Task Completed: {newTaskDescription}");
+            UpdateTaskUI();
+        }
+    }
+
     private void AddRandomTask()
     {
         List<string> taskPool = new List<string>
@@ -60,7 +71,8 @@ public class TaskManager : MonoBehaviour
 
         if (availableTasks.Count > 0)
         {
-            string newTaskDescription = availableTasks[Random.Range(0, availableTasks.Count)];
+            string newTaskDescription = availableTasks[UnityEngine.Random.Range(0, availableTasks.Count)];
+
 
             tasks.Add(new FarmTask(newTaskDescription));
 
