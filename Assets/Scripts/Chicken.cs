@@ -224,7 +224,13 @@ public class Chicken : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("testing is it arriving");
+        if (collision.gameObject.CompareTag("Car"))
+        {
+            Debug.Log($"{gameObject.name} collided with a car and will be destroyed.");
+            GameManager.Instance.IncrementDeaths();
+            Destroy(gameObject); // Destroy the chicken on collision with the car
+        }
+
         if (collision.gameObject.CompareTag("Player") && !isInteracting)
         {
             _pathfindingFunctions.enabled = false;

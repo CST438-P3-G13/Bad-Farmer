@@ -12,6 +12,7 @@ TagManager:
   - ChickenPen
   - PigPen
   - Water
+  - Car
   layers:
   - Default
   - TransparentFX
