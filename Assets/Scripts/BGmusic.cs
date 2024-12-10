@@ -11,8 +11,8 @@ public class BGmusic : MonoBehaviour
         if (instance != null) {
             Destroy(gameObject);
         } else {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            instance = this;  
         }
+        DontDestroyOnLoad(this.gameObject);
     }
 }
