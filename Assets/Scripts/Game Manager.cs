@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     private int _playingState; // 0 for Main Menu, 1 for in-game
     private int _day;
-    private int _deathsAllowedToday;
+    private int _deathsAllowedToday = 3;
     private int _deathsToday;
 
     void Awake()
@@ -162,6 +162,16 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1; // Reset time scale
         Debug.Log("Returning to Main Menu...");
         SceneManager.LoadScene("MainMenu"); // Load the Main Menu scene
+    }
+    
+    public void IncrementDeaths()
+    {
+        _deathsToday++;
+        if (_deathsAllowedToday <= _deathsToday)
+        {
+            GameOver();
+        }
+        
     }
 
     public int GetDay()

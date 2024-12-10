@@ -32,6 +32,9 @@ public class Chicken : MonoBehaviour
     public Transform exitPen;
     private bool isExiting = false;
     
+    private bool isDrowning = false;
+    private float drowningTimer = 0f;
+    
     private PathfindingFunctions _pathfindingFunctions;
 
     void Start()
@@ -51,7 +54,19 @@ public class Chicken : MonoBehaviour
 
     void Update()
     {
-         if (isExiting)
+        if (isDrowning)
+        {
+            _pathfindingFunctions.enabled = false;
+            if (Time.time >= drowningTimer + 15f)
+            {
+                isDrowning = false;
+                GameManager.Instance.IncrementDeaths();
+                Destroy(gameObject);
+            }
+
+            return;
+        }
+        if (isExiting)
         {
             _pathfindingFunctions.enabled = false;
             Vector2 directionToExit = (Vector2)exitPen.position - rb.position;
@@ -71,6 +86,7 @@ public class Chicken : MonoBehaviour
         }
         if (inPen)
         {
+            happinessState = HappinessState.Happy;
             _pathfindingFunctions.enabled = false;
             if (isTimerActive && Time.time >= penTimer + 12f)
             {
@@ -211,10 +227,23 @@ public class Chicken : MonoBehaviour
         Debug.Log("testing is it arriving");
         if (collision.gameObject.CompareTag("Player") && !isInteracting)
         {
+            _pathfindingFunctions.enabled = false;
             isInteracting = true;
             interactionEndTime = Time.time + interactionTime;
             horizontalMove = 0f;
             followingPlayer = true;
+            isDrowning = false;
+        }
+        if (!isDrowning && collision.gameObject.CompareTag("Water") && happinessState == HappinessState.Suicidal)
+        {
+            Debug.Log("Animal is drowning!!!");
+            _pathfindingFunctions.enabled = false;
+            //add a death timer
+            //make animal stay still
+            //if death timer runs out, destroy animal object and imcrement deaths in game manager.
+            isDrowning = true;
+            drowningTimer = Time.time;
+            rb.linearVelocity = Vector2.zero;
         }
     }
 
