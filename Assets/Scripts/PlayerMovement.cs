@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     float speed = currentlyRunning ? walkingSpeed * runningSpeed : walkingSpeed;
 
     // Apply movement
-    transform.position += movement * speed * Time.deltaTime;
+    transform.position += speed * Time.deltaTime * movement;
 
     // If no input, stop sprinting
     if (movement == Vector3.zero)
@@ -52,21 +52,21 @@ public class PlayerMovement : MonoBehaviour
 
     string TrackingKey()
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             return "Left";
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
             return "Right";
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
             return "Up";
         }
 
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             return "Down";
         }
@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
     void DoublePressed()
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) ||
-            Input.GetKeyDown(KeyCode.DownArrow))
+            Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.W)|| Input.GetKeyDown(KeyCode.A)|| Input.GetKeyDown(KeyCode.S)|| Input.GetKeyDown(KeyCode.D))
         {
             string activeKey = TrackingKey();
             if (activeKey == previousKey && (Time.time - previousKeyTime) <= 1f) //0.5 is the time which it takes to consider if its a double press or not
@@ -118,19 +118,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void TryCompleteTask(){
+    void TryCompleteTask() {
         Collider2D[] nearbyAnimals = Physics2D.OverlapCircleAll(transform.position, interactionRadius, interactableLayer);
 
         foreach(var obj in nearbyAnimals){
-            if(obj.CompareTag("Cow") && TaskManager.Instance.tasks.Exists(t => t.description == "Milking the cow")){
+            if(obj.CompareTag("Cow") && TaskManager.Instance.tasks.Exists(t => t.description == "Milking the cow")) {
                 TaskManager.Instance.CompleteTask("Milking the cow");
                 return;
             }
-            else if(obj.CompareTag("Pig") && TaskManager.Instance.tasks.Exists(t => t.description == "Cleaning the pig")){
+            else if(obj.CompareTag("Pig") && TaskManager.Instance.tasks.Exists(t => t.description == "Cleaning the pig")) {
                 TaskManager.Instance.CompleteTask("Cleaning the pig");
                 return;
             }
-            else if(obj.CompareTag("Chicken") && TaskManager.Instance.tasks.Exists(t => t.description == "Defeathering a chicken")){
+            else if(obj.CompareTag("Chicken") && TaskManager.Instance.tasks.Exists(t => t.description == "Defeathering a chicken")) {
                 TaskManager.Instance.CompleteTask("Defeathering a chicken");
                 return;
             }

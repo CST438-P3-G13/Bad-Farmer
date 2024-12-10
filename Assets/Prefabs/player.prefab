@@ -112,7 +112,7 @@ MonoBehaviour:
   interactionRadius: 2
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
 --- !u!50 &6904778936056983073
 Rigidbody2D:
   serializedVersion: 5

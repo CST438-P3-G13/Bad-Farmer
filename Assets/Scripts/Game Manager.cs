@@ -32,29 +32,19 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != this)
         {
-            Destroy(this);
+            Debug.Log("test");
+            Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
         sceneManagerScript = GetComponent<SceneManagerScript>();
         _playingState = 0;
-
-        if (timerDisplay == null)
-        {
-            Debug.LogError("Timer Display is not assigned in the Inspector!");
-        }
-        else
-        {
-            Debug.Log("Timer Display assigned successfully.");
-        }
-
-        StartGame(); // Start the game immediately for testing
     }
 
     private void Update()
@@ -79,7 +69,7 @@ public class GameManager : MonoBehaviour
         {
             TimeSpan time = TimeSpan.FromSeconds(dayTimer);
             timerDisplay.text = $"{time.Minutes:D2}:{time.Seconds:D2}";
-            Debug.Log($"Timer Updated: {timerDisplay.text}"); // Log timer updates
+            // Debug.Log($"Timer Updated: {timerDisplay.text}"); // Log timer updates
         }
 
         if (dayTimer <= 0f)
@@ -97,13 +87,12 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        _playingState = 1;
-        _day = 1; 
+        // _playingState = 1;
+        _day = 1;
         sceneManagerScript.LoadScene("Pathfinding Scene");
         SceneManager.sceneLoaded += OnSceneLoaded;
         Debug.Log("Game Started.");
 
-        // Ensure time scale is correct at game start
         dayTimer = 300f; // Reset day timer
     }
 
@@ -113,6 +102,7 @@ public class GameManager : MonoBehaviour
 
         waveFunctionCollapse = GameObject.Find("PCGManager")?.GetComponent<WaveFunctionCollapse>();
         animalManager = GameObject.Find("AnimalManager")?.GetComponent<AnimalManager>();
+        timerDisplay = GameObject.Find("Timer").GetComponent<TextMeshProUGUI>();
 
         if (waveFunctionCollapse == null)
         {
@@ -122,9 +112,14 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("AnimalManager not found!");
         }
+        if (timerDisplay == null)
+        {
+            Debug.LogError("Timer not found!");
+        }
 
         
         Time.timeScale = 0;
+        _playingState = 1;
 
         StartNewDay();
         Time.timeScale = 1;
@@ -147,7 +142,7 @@ public class GameManager : MonoBehaviour
         // Procedural generation
         Debug.Log("Starting procedural generation...");
         waveFunctionCollapse.GenerateGrid();
-        AstarPath.Scan(AstarPath.graphs[0]);
+        // AstarPath.Scan(AstarPath.graphs[0]);
 
         // Spawn animals
         animalManager.SpawnAnimals();
