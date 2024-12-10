@@ -229,6 +229,7 @@ public class Pig : MonoBehaviour
         if (collision.gameObject.CompareTag("Car"))
         {
             Debug.Log($"{gameObject.name} collided with a car and will be destroyed.");
+            GameManager.Instance.IncrementDeaths();
             Destroy(gameObject); // Destroy the chicken on collision with the car
         }
 
@@ -251,7 +252,7 @@ public class Pig : MonoBehaviour
             isDrowning = true;
             drowningTimer = Time.time;
             rb.linearVelocity = Vector2.zero;
-        }
+         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
