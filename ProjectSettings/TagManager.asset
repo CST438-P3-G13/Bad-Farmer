@@ -7,6 +7,7 @@ TagManager:
   - Cow
   - Pig
   - Chicken
+  - Crops
   - Pen
   - ChickenPen
   - PigPen
@@ -17,7 +18,7 @@ TagManager:
   - Interactable
   - Water
   - UI
-  - 
+  - Obstacle
   - 
   - 
   - 
