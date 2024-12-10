@@ -134,7 +134,8 @@ public class PlayerMovement : MonoBehaviour
                 TaskManager.Instance.CompleteTask("Defeathering a chicken");
                 return;
             }
-            else if(obj.name == "Crops" && TaskManager.Instance.tasks.Exists(t => t.description == "Watering the crops")){
+            else if (obj.gameObject.CompareTag("Crops") && TaskManager.Instance.tasks.Exists(t => t.description == "Watering the crops"))
+            {
                 TaskManager.Instance.CompleteTask("Watering the crops");
                 return;
             }
