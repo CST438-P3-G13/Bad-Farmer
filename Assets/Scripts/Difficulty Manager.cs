@@ -49,9 +49,4 @@ public class DifficultyManager : MonoBehaviour
         return new List<int>() { 0, 0, 0 };
     }
 
-    public int ProvideTaskCount()
-    {
-        // Similar to ProvideAnimalCounts function, but just to generate one value
-        return 0;
-    }
 }
