@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5802960110699511692}
   - component: {fileID: 7178358715589879061}
   - component: {fileID: 3675337273695248180}
-  - component: {fileID: 2255249814309741215}
   - component: {fileID: 6260765749795429223}
   m_Layer: 3
   m_Name: Chicken
@@ -158,7 +157,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 0.24, y: 0.25}
   m_EdgeRadius: 0
 --- !u!50 &3675337273695248180
 Rigidbody2D:
@@ -187,28 +186,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!95 &2255249814309741215
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7978716882269500494}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!61 &6260765749795429223
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -253,5 +230,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 0.05, y: 0.05}
   m_EdgeRadius: 0
