@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: [Cow, Pig, Chicken, Pen]
+  tags:
+  - Cow
+  - Pig
+  - Chicken
+  - Pen
+  - ChickenPen
+  - PigPen
   layers:
   - Default
   - TransparentFX
