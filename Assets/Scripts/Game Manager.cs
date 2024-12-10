@@ -100,6 +100,7 @@ public class GameManager : MonoBehaviour
         _playingState = 1;
         _day = 1; 
         sceneManagerScript.LoadScene("Pathfinding Scene");
+        SceneManager.sceneLoaded += OnSceneLoaded;
         Debug.Log("Game Started.");
 
         // Ensure time scale is correct at game start
