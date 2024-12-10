@@ -31,6 +31,10 @@ public class Cow : MonoBehaviour
     private Transform pen;
     public Transform exitPen;
     private bool isExiting = false;
+    
+    private bool isDrowning = false;
+    private float drowningTimer = 0f;
+    private 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -44,6 +48,17 @@ public class Cow : MonoBehaviour
 
     void Update()
     {
+        if (isDrowning)
+        {
+            if (Time.time >= drowningTimer + 15f)
+            {
+                isDrowning = false;
+                GameManager.Instance.IncrementDeaths();
+                Destroy(gameObject);
+            }
+
+            return;
+        }
         if (isExiting)
         {
             Vector2 directionToExit = (Vector2)exitPen.position - rb.position;
@@ -201,6 +216,19 @@ public class Cow : MonoBehaviour
             interactionEndTime = Time.time + interactionTime;
             horizontalMove = 0f;
             followingPlayer = true;
+        }
+
+        if (collision.gameObject.CompareTag("Water") && happinessState == HappinessState.Suicidal)
+        {
+            //add a death timer
+            //make animal stay still
+            //if death timer runs out, destroy animal object and imcrement deaths in game manager.
+            isDrowning = true;
+            drowningTimer = Time.time;
+            rb.linearVelocity = Vector2.zero;
+        }
+        {
+            
         }
     }
 

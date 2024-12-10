@@ -135,4 +135,14 @@ public class GameManager : MonoBehaviour
     {
         return _day;
     }
+
+    public void IncrementDeaths()
+    {
+        _deathsToday++;
+        if (_deathsAllowedToday <= _deathsToday)
+        {
+            GameOver();
+        }
+        
+    }
 }
