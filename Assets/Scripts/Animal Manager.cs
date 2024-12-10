@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -9,8 +10,14 @@ public class AnimalManager : MonoBehaviour
     [HideInInspector]
     public static AnimalManager Instance { get; private set; }
 
-    public List<GameObject> animals; 
+    public List<GameObject> animalsPrefabs;
+    public List<GameObject> animals;
     public Dictionary<GameObject, HappinessState> animalHappiness = new Dictionary<GameObject, HappinessState>();
+
+    public int xLeft = -50;
+    public int xRight = 35;
+    public int yUp = 30;
+    public int yDown = -17;
 
     public WaveFunctionCollapse _waveFunctionCollapse;
     private GameManager _gameManager;
@@ -31,24 +38,23 @@ public class AnimalManager : MonoBehaviour
             Destroy(this);
         }
         // DontDestroyOnLoad(gameObject);
+        _gameManager = GameManager.Instance;
+        grid = new int[xRight - xLeft, yUp - yDown];
+        for (int i = 0; i < xRight - xLeft; i++)
+        {
+            for (int j = 0; j < yUp - yDown; j++)
+            {
+                grid[i, j] = 0;
+            }
+        }
     }
 
     private void Start()
     {
         // _difficultyManager = DifficultyManager.Instance;
-        _gameManager = GameManager.Instance;
-        _waveFunctionCollapse = GameObject.Find("PCGManager").GetComponent<WaveFunctionCollapse>();
 
-        grid = new int[_waveFunctionCollapse.gridWidth, _waveFunctionCollapse.gridHeight];
-        for (int i = 0; i < _waveFunctionCollapse.gridWidth; i++)
-        {
-            for (int j = 0; j < _waveFunctionCollapse.gridHeight; j++)
-            {
-                grid[i, j] = 0;
-            }
-        }
         
-        SpawnAnimals();
+        // SpawnAnimals();
     }
 
     private void Update()
@@ -69,13 +75,13 @@ public class AnimalManager : MonoBehaviour
     public void SpawnAnimals()
     {
         // Clear existing animals
-        foreach (var animal in animals)
-        {
-            if (animal.activeSelf)
-            {
-                DestroyImmediate(animal, true);
-            }
-        }
+        // foreach (var animal in animals)
+        // {
+        //     if (animal.activeSelf)
+        //     {
+        //         DestroyImmediate(animal, true);
+        //     }
+        // }
 
         int cowCount = Random.Range(1, 2);
         int pigCount = Random.Range(1, 3);
@@ -83,21 +89,24 @@ public class AnimalManager : MonoBehaviour
 
         for (int i = 0; i < cowCount; i++)
         {
-            GameObject newCow = Instantiate(animals[0], GetRandomLocation(), Quaternion.identity);
+            GameObject newCow = Instantiate(animalsPrefabs[0], GetRandomLocation(), Quaternion.identity);
+            animals.Add(newCow);
             animalHappiness[newCow] = HappinessState.Happy;
             newCow.GetComponent<Cow>().SetHappinessState(HappinessState.Happy);
         }
 
         for (int i = 0; i < pigCount; i++)
         {
-            GameObject newPig = Instantiate(animals[1], GetRandomLocation(), Quaternion.identity);
+            GameObject newPig = Instantiate(animalsPrefabs[1], GetRandomLocation(), Quaternion.identity);
+            animals.Add(newPig);
             animalHappiness[newPig] = HappinessState.Happy;
             newPig.GetComponent<Pig>().SetHappinessState(HappinessState.Happy);
         }
 
         for (int i = 0; i < chickenCount; i++)
         {
-            GameObject newChicken = Instantiate(animals[2], GetRandomLocation(), Quaternion.identity);
+            GameObject newChicken = Instantiate(animalsPrefabs[2], GetRandomLocation(), Quaternion.identity);
+            animals.Add(newChicken);
             animalHappiness[newChicken] = HappinessState.Happy;
             newChicken.GetComponent<Chicken>().SetHappinessState(HappinessState.Happy);
         }
@@ -105,19 +114,18 @@ public class AnimalManager : MonoBehaviour
 
     private Vector3 GetRandomLocation()
     {
-        int width = _gameManager.waveFunctionCollapse.xOffset;
-        int height = _gameManager.waveFunctionCollapse.yOffset;
-        Tilemap invalidTiles = _gameManager.waveFunctionCollapse.colliderTileMap;
+        Tilemap invalidTiles = _waveFunctionCollapse.colliderTileMap;
 
         int maxChecks = 30;
         
         while (maxChecks > 0)
         {
-            int x = Random.Range(-width, width);
-            int y = Random.Range(-height, height);
-            if (!invalidTiles.HasTile(new Vector3Int(x, y, 0)) && (grid[x + width, y + height] != 1))
+            int x = Random.Range(xLeft, xRight);
+            int y = Random.Range(yDown, yUp);
+            if (!invalidTiles.HasTile(new Vector3Int(x, y, 0)) && (grid[x - xLeft, y - yDown] != 1))
             {
-                grid[x + width, y + height] = 1;
+                grid[x -xLeft, y - yDown] = 1;
+                Debug.Log($"Spawning animal at [{x}, {y}].");
                 return new Vector3(x, y, 0);
             }
 

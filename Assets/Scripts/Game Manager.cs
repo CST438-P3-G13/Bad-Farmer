@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using Pathfinding;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
@@ -31,12 +31,13 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != this)
         {
-            Destroy(this);
+            Debug.Log("test");
+            Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -125,6 +126,26 @@ public class GameManager : MonoBehaviour
         animalManager.SpawnAnimals();
         Debug.Log("100% done");
     }
+    
+    // Method to reassign UI listeners
+    // private void ReassignUIListeners()
+    // {
+    //     // Example: If you have buttons referencing the GameManager
+    //     Button[] allButtons = FindObjectsOfType<Button>();
+    //     foreach (Button button in allButtons)
+    //     {
+    //         // Check if the button is referencing the current (duplicate) instance
+    //         for (int i = 0; i < button.onClick.GetPersistentEventCount(); i++)
+    //         {
+    //             var target = button.onClick.GetPersistentTarget(i);
+    //             if (target == this)
+    //             {
+    //                 // Update the listener to point to the original instance
+    //                 button.onClick.SetPersistentListenerState(i, Instance.StartGame());
+    //             }
+    //         }
+    //     }
+    // }
 
     public void ToMainMenu()
     {

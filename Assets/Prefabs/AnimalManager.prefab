@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ccd84a3117fcfd4595615f3d39f78cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animals:
+  animalsPrefabs:
   - {fileID: 3147897550683812864, guid: 91399abcbc102d246beb79acbb680bda, type: 3}
   - {fileID: 4020989846644845944, guid: 897739a66ae8d0946a48320d63c8b055, type: 3}
   - {fileID: 7978716882269500494, guid: dfc1f95c20d1d8b449abc7b9e2364f43, type: 3}
+  animals: []
+  _waveFunctionCollapse: {fileID: 0}
