@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Determine speed
     DoublePressed(); // Check for double-tap to sprint
-    float speed = currentlyRunning ? walkingSpeed * runningSpeed : walkingSpeed;
+    float speed = currentlyRunning ? walkingSpeed + runningSpeed : walkingSpeed;
 
     // Apply movement
     transform.position += speed * Time.deltaTime * movement;
@@ -99,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (stamina > 0)
             {
-                stamina -= Time.deltaTime * 10f; // 20 is the drainrate, could make it into a variable
+                stamina -= Time.deltaTime * 30f; // 20 is the drainrate, could make it into a variable
                 if (stamina <= 0)
                 {
                    

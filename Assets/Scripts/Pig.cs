@@ -252,7 +252,7 @@ public class Pig : MonoBehaviour
             isDrowning = true;
             drowningTimer = Time.time;
             rb.linearVelocity = Vector2.zero;
-         }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
