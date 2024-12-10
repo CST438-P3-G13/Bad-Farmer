@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [Header("Day Timer Settings")]
     public float dayTimer = 300f; // 5 minutes in seconds
     public TextMeshProUGUI timerDisplay; // Use TextMeshProUGUI for the timer display
+    public TextMeshProUGUI deathDisplay;
 
     [HideInInspector]
     public AnimalManager animalManager = null;
@@ -103,6 +104,8 @@ public class GameManager : MonoBehaviour
         waveFunctionCollapse = GameObject.Find("PCGManager")?.GetComponent<WaveFunctionCollapse>();
         animalManager = GameObject.Find("AnimalManager")?.GetComponent<AnimalManager>();
         timerDisplay = GameObject.Find("Timer").GetComponent<TextMeshProUGUI>();
+        deathDisplay = GameObject.Find("Death Count").GetComponent<TextMeshProUGUI>();
+        deathDisplay.text = $"Deaths: {_deathsAllowedToday}";
 
         if (waveFunctionCollapse == null)
         {
@@ -167,6 +170,7 @@ public class GameManager : MonoBehaviour
     public void IncrementDeaths()
     {
         _deathsToday++;
+        deathDisplay.text = $"Deaths: {_deathsAllowedToday - _deathsToday}";
         if (_deathsAllowedToday <= _deathsToday)
         {
             GameOver();
