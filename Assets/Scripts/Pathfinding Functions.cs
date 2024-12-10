@@ -26,15 +26,11 @@ public class PathfindingFunctions : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
+        GameManager.Instance.AstarPath.Scan(GameManager.Instance.AstarPath.graphs[0]);
     }
 
     private void Update()
     {
-        // if (happinessState != HappinessState.Agitated)
-        // {
-        //     return;
-        // }
-
         if (path == null)
         {
             StartPathfinding();
@@ -53,7 +49,7 @@ public class PathfindingFunctions : MonoBehaviour
         }
 
         Vector2 dir = ((Vector2)path.vectorPath[currWaypoint] - rb.position).normalized;
-        Vector2 force = speed * Time.deltaTime * dir;
+        Vector2 force = speed * 10f * Time.deltaTime * dir;
         rb.AddForce(force);
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currWaypoint]);

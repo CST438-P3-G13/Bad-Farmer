@@ -10,19 +10,18 @@ public class FontManager : MonoBehaviour
 
     private TMP_FontAsset currentFont;
 
-    private void Awake()
-    {
-        // Singleton pattern
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // Keep this manager across scenes
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    // private void Awake()
+    // {
+    //     if (Instance == null)
+    //     {
+    //         Instance = this;
+    //         DontDestroyOnLoad(gameObject); // Keep this manager across scenes
+    //     }
+    //     else
+    //     {
+    //         Destroy(gameObject);
+    //     }
+    // }
 
     private void Start()
     {
@@ -49,7 +48,7 @@ public class FontManager : MonoBehaviour
     private void UpdateAllTMPTexts()
     {
         // Find all TMP Text objects in the scene
-        TextMeshProUGUI[] textObjects = FindObjectsOfType<TextMeshProUGUI>(true); // Includes inactive objects
+        TextMeshProUGUI[] textObjects = FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None); // Includes inactive objects
         foreach (var text in textObjects)
         {
             text.font = currentFont;

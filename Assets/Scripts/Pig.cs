@@ -32,9 +32,16 @@ public class Pig : MonoBehaviour
     private Transform pen;
     public Transform exitPen;
     private bool isExiting = false;
+    
+    private PathfindingFunctions _pathfindingFunctions;
+
     void Start()
     {
+        _pathfindingFunctions = GetComponent<PathfindingFunctions>();
         rb = GetComponent<Rigidbody2D>();
+        _pathfindingFunctions.enabled = false;
+        _pathfindingFunctions.speed = 5f;
+        
         SetHappinessState(HappinessState.Happy);
 
         if (AnimalManager.Instance != null)
@@ -47,6 +54,7 @@ public class Pig : MonoBehaviour
     {
         if (isExiting)
         {
+            _pathfindingFunctions.enabled = false;
             Vector2 directionToExit = (Vector2)exitPen.position - rb.position;
             if (directionToExit.magnitude > 0.1f)
             {
@@ -64,6 +72,7 @@ public class Pig : MonoBehaviour
         }
         if (inPen)
         {
+            _pathfindingFunctions.enabled = false;
             if (isTimerActive && Time.time >= penTimer + 12f)
             {
                 isExiting = true;
@@ -133,6 +142,7 @@ public class Pig : MonoBehaviour
         }
         if (followingPlayer)
         {
+            _pathfindingFunctions.enabled = false;
             FollowingPlayer();
             if (Vector3.Distance(transform.position, penArea.position) < 0.1f)
             {
@@ -155,8 +165,13 @@ public class Pig : MonoBehaviour
             }
         }
 
-        if (Time.time > nextDirectionChange + randomDelay)
+        if (happinessState == HappinessState.Agitated)
         {
+            _pathfindingFunctions.enabled = true;
+        }
+        else if (Time.time > nextDirectionChange + randomDelay)
+        {
+            _pathfindingFunctions.enabled = false;
             randomDelay = Random.Range(0.2f, 1f);
 
             if (Random.value < idle)

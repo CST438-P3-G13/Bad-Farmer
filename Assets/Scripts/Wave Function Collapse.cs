@@ -34,12 +34,13 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     private void Start()
     {
-        uncollapsedTiles = gridWidth * gridHeight;
-        GenerateGrid();
+        Debug.Log("WFC started");
+        // GenerateGrid();
     }
 
     public void GenerateGrid()
     {
+        uncollapsedTiles = gridWidth * gridHeight;
         bool success = false;
     
         // Retry the collapse process a certain number of times before giving up
@@ -116,6 +117,11 @@ public class WaveFunctionCollapse : MonoBehaviour
             for (int j = 0; j < gridHeight; j++)
             {
                 if (grassTilemap.HasTile(new Vector3Int(i - xOffset, j - yOffset, 0)) || colliderTileMap.HasTile(new Vector3Int(i - xOffset, j - yOffset, 0))) continue;
+                if (grid[i, j] == null)
+                {
+                    Debug.Log($"Invalid tile at [{i}, {j}].");
+                    continue;
+                }
                 if (grid[i, j].name.Contains("Water"))
                 {
                     colliderTileMap.SetTile(new Vector3Int(i - xOffset, j - yOffset, 0), grid[i, j].tile);
