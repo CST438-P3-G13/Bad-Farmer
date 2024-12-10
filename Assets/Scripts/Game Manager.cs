@@ -1,16 +1,26 @@
 using System;
 using UnityEngine;
+using Pathfinding;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
     [HideInInspector]
     public static GameManager Instance { get; private set; }
 
-    public GameObject gameOverScreen; 
-    public GameObject pauseScreen;
+    public AstarPath AstarPath; 
+    public GameObject gameOverScreen;
+    public float dayTimer = 300f;
 
-    private DifficultyManager _difficultyManager;
-    // Other managers
+    // public DifficultyManager difficultyManager;
+    [HideInInspector]
+    public AnimalManager animalManager = null;
+    [HideInInspector]
+    public SceneManagerScript sceneManagerScript;
+    [HideInInspector]
+    public WaveFunctionCollapse waveFunctionCollapse = null;
+    
     private int _playingState; // 0 for Main Menu, 1 for in game
     private int _day;
     private int _deathsAllowedToday;
@@ -31,7 +41,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _difficultyManager = DifficultyManager.Instance;
+        // difficultyManager = DifficultyManager.Instance;
+        sceneManagerScript = GetComponent<SceneManagerScript>();
+        _playingState = 0;
     }
 
     private void Update()
@@ -41,12 +53,13 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
-        {
-            PauseGame();
-        }
         // Update time for day timer
+        dayTimer -= Time.deltaTime;
         // Check for game over
+        if (dayTimer <= 0f)
+        {
+            GameOver();
+        }
     }
 
     // New Game/Play/Continue button will link to this function
@@ -54,14 +67,32 @@ public class GameManager : MonoBehaviour
     {
         _playingState = 1;
         _day = 1; // Might change if we allow save data
-        // switch to game scene
+        sceneManagerScript.LoadScene("Pathfinding Scene");
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        
+        waveFunctionCollapse = GameObject.Find("PCGManager").GetComponent<WaveFunctionCollapse>();
+        animalManager = GameObject.Find("AnimalManager").GetComponent<AnimalManager>();
+        
+        Time.timeScale = 0;
+        // Start loading thing
+        
         StartNewDay();
+        
+        // Finish loading thing
+        Time.timeScale = 1;
     }
     
     public void GameOver()
     {
         // The game over screen button will link to a different function to change scene
         gameOverScreen.SetActive(true);
+        Time.timeScale = 0;
     }
     
     /**
@@ -73,21 +104,31 @@ public class GameManager : MonoBehaviour
         // do stuff here
         if (_day == 1)
         {
-            _deathsAllowedToday = _difficultyManager.Initialize();
+            // _deathsAllowedToday = difficultyManager.Initialize();
         }
         else
         {
-            _deathsAllowedToday = _difficultyManager.UpdateDifficulty(_deathsToday / (_deathsAllowedToday * 1f), 0f);
+            // _deathsAllowedToday = difficultyManager.UpdateDifficulty(_deathsToday / (_deathsAllowedToday * 1f), 0f);
         }
 
         _deathsToday = 0;
-        // Procedural generation, tasks, animals
+        dayTimer = 300f;
+        
+        Debug.Log("15% done");
+        // Procedural generation
+        waveFunctionCollapse.GenerateGrid();
+        Debug.Log("55% done");
+        AstarPath.Scan(AstarPath.graphs[0]);
+        Debug.Log("75% done");
+        // Animals
+        // Call spawn animals function from animal manager
+        animalManager.SpawnAnimals();
+        Debug.Log("100% done");
     }
 
-    public void PauseGame()
+    public void ToMainMenu()
     {
-        pauseScreen.SetActive(!pauseScreen.activeSelf);
-        Time.timeScale = pauseScreen.activeSelf ? 0f : 1f;
+        _playingState = 0;
     }
 
     public int GetDay()

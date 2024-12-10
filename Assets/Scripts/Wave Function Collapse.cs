@@ -8,10 +8,10 @@ using Random = UnityEngine.Random;
 public class WaveFunctionCollapse : MonoBehaviour
 {
     [Header("Grid Settings")]
-    public int gridWidth = 25;
-    public int gridHeight = 25;
-    public int xOffset = 0;
-    public int yOffset = 0;
+    public int gridWidth = 91;
+    public int gridHeight = 52;
+    public int xOffset = 46;
+    public int yOffset = 27;
 
     [Header("TileMap")]
     public Tilemap grassTilemap;
@@ -38,7 +38,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         GenerateGrid();
     }
 
-    void GenerateGrid()
+    public void GenerateGrid()
     {
         bool success = false;
     
