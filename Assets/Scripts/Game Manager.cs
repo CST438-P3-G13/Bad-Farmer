@@ -98,11 +98,11 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         _playingState = 1;
-        _day = 1; // Might change if we allow save data
+        _day = 1; 
+        sceneManagerScript.LoadScene("Pathfinding Scene");
         Debug.Log("Game Started.");
 
         // Ensure time scale is correct at game start
-        Time.timeScale = 1;
         dayTimer = 300f; // Reset day timer
     }
 
@@ -122,10 +122,11 @@ public class GameManager : MonoBehaviour
             Debug.LogError("AnimalManager not found!");
         }
 
-        // Ensure time scale is set back to 1 after loading
-        Time.timeScale = 1;
+        
+        Time.timeScale = 0;
 
         StartNewDay();
+        Time.timeScale = 1;
     }
 
     public void StartNewDay()
