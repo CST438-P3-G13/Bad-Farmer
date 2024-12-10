@@ -8,6 +8,9 @@ TagManager:
   - Pig
   - Chicken
   - Crops
+  - Pen
+  - ChickenPen
+  - PigPen
   layers:
   - Default
   - TransparentFX
