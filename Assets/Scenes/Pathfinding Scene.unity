@@ -1565,6 +1565,22 @@ PrefabInstance:
       propertyPath: _waveFunctionCollapse
       value: 
       objectReference: {fileID: 689187433}
+    - target: {fileID: 5188465841614634048, guid: 9f50ecf97cc75b54199796ef84a73135, type: 3}
+      propertyPath: 'corners.Array.data[0]'
+      value: 
+      objectReference: {fileID: 751647784}
+    - target: {fileID: 5188465841614634048, guid: 9f50ecf97cc75b54199796ef84a73135, type: 3}
+      propertyPath: 'corners.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1291331176}
+    - target: {fileID: 5188465841614634048, guid: 9f50ecf97cc75b54199796ef84a73135, type: 3}
+      propertyPath: 'corners.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1902109518}
+    - target: {fileID: 5188465841614634048, guid: 9f50ecf97cc75b54199796ef84a73135, type: 3}
+      propertyPath: 'corners.Array.data[3]'
+      value: 
+      objectReference: {fileID: 165171225}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -14,6 +14,7 @@ public class AnimalManager : MonoBehaviour
     public List<GameObject> animals;
     public Dictionary<GameObject, HappinessState> animalHappiness = new Dictionary<GameObject, HappinessState>();
 
+    public Transform[] corners;
     public Transform player;
     
     public Transform cowExit;
@@ -96,6 +97,10 @@ public class AnimalManager : MonoBehaviour
             cow.penArea = cowPen;
             cow.player = player;
             cow.exitPen = cowExit;
+            
+            PathfindingFunctions pathfindingFunctions = newCow.GetComponent<PathfindingFunctions>();
+            pathfindingFunctions.player = player;
+            pathfindingFunctions.corners = corners;
             animals.Add(newCow);
             animalHappiness[newCow] = HappinessState.Happy;
             cow.SetHappinessState(HappinessState.Happy);
@@ -108,6 +113,10 @@ public class AnimalManager : MonoBehaviour
             pig.penArea = pigPen;
             pig.player = player;
             pig.exitPen = pigExit;
+            
+            PathfindingFunctions pathfindingFunctions = newPig.GetComponent<PathfindingFunctions>();
+            pathfindingFunctions.player = player;
+            pathfindingFunctions.corners = corners;
             animals.Add(newPig);
             animalHappiness[newPig] = HappinessState.Happy;
             pig.SetHappinessState(HappinessState.Happy);
@@ -120,6 +129,10 @@ public class AnimalManager : MonoBehaviour
             chicken.penArea = chickenPen;
             chicken.player = player;
             chicken.exitPen = chickenExit;
+            
+            PathfindingFunctions pathfindingFunctions = newChicken.GetComponent<PathfindingFunctions>();
+            pathfindingFunctions.player = player;
+            pathfindingFunctions.corners = corners;
             animals.Add(newChicken);
             animalHappiness[newChicken] = HappinessState.Happy;
             chicken.SetHappinessState(HappinessState.Happy);

@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
         // Procedural generation
         Debug.Log("Starting procedural generation...");
         waveFunctionCollapse.GenerateGrid();
-        AstarPath.Scan(AstarPath.graphs[0]);
+        // AstarPath.Scan(AstarPath.graphs[0]);
 
         // Spawn animals
         animalManager.SpawnAnimals();

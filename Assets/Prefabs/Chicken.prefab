@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7178358715589879061}
   - component: {fileID: 3675337273695248180}
   - component: {fileID: 6260765749795429223}
+  - component: {fileID: 2834241422578265590}
+  - component: {fileID: 1564315806780106792}
   m_Layer: 3
   m_Name: Chicken
   m_TagString: Chicken
@@ -232,3 +234,47 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.05, y: 0.05}
   m_EdgeRadius: 0
+--- !u!114 &2834241422578265590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7978716882269500494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 893fc6665eca896459fd3ba2cdcdd312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corners: []
+  player: {fileID: 0}
+  speed: 0
+  nextWaypointDistance: 5
+--- !u!114 &1564315806780106792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7978716882269500494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
