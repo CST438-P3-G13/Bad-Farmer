@@ -11,6 +11,7 @@ TagManager:
   - Pen
   - ChickenPen
   - PigPen
+  - Water
   - Car
   layers:
   - Default
