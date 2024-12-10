@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using Pathfinding;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,11 +13,13 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverScreen;
     public float dayTimer = 300f;
 
-    private DifficultyManager _difficultyManager;
-    private AnimalManager _animalManager;
-    private SceneManagerScript _sceneManagerScript;
-    private WaveFunctionCollapse _waveFunctionCollapse;
-    // Other managers
+    // public DifficultyManager difficultyManager;
+    [HideInInspector]
+    public AnimalManager animalManager = null;
+    [HideInInspector]
+    public SceneManagerScript sceneManagerScript;
+    [HideInInspector]
+    public WaveFunctionCollapse waveFunctionCollapse = null;
     
     private int _playingState; // 0 for Main Menu, 1 for in game
     private int _day;
@@ -37,7 +41,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _difficultyManager = DifficultyManager.Instance;
+        // difficultyManager = DifficultyManager.Instance;
+        sceneManagerScript = GetComponent<SceneManagerScript>();
+        _playingState = 0;
     }
 
     private void Update()
@@ -61,9 +67,19 @@ public class GameManager : MonoBehaviour
     {
         _playingState = 1;
         _day = 1; // Might change if we allow save data
-        _sceneManagerScript.LoadScene("MainScene");
+        sceneManagerScript.LoadScene("Pathfinding Scene");
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        
+        waveFunctionCollapse = GameObject.Find("PCGManager").GetComponent<WaveFunctionCollapse>();
+        animalManager = GameObject.Find("AnimalManager").GetComponent<AnimalManager>();
+        
         Time.timeScale = 0;
-        _animalManager = GameObject.Find("AnimalManager").GetComponent<AnimalManager>();
         // Start loading thing
         
         StartNewDay();
@@ -88,22 +104,26 @@ public class GameManager : MonoBehaviour
         // do stuff here
         if (_day == 1)
         {
-            _deathsAllowedToday = _difficultyManager.Initialize();
+            // _deathsAllowedToday = difficultyManager.Initialize();
         }
         else
         {
-            _deathsAllowedToday = _difficultyManager.UpdateDifficulty(_deathsToday / (_deathsAllowedToday * 1f), 0f);
+            // _deathsAllowedToday = difficultyManager.UpdateDifficulty(_deathsToday / (_deathsAllowedToday * 1f), 0f);
         }
 
         _deathsToday = 0;
         dayTimer = 300f;
-        // Procedural generation
-        _waveFunctionCollapse.GenerateGrid();
-        AstarPath.Scan(AstarPath.graphs[0]);
         
+        Debug.Log("15% done");
+        // Procedural generation
+        waveFunctionCollapse.GenerateGrid();
+        Debug.Log("55% done");
+        AstarPath.Scan(AstarPath.graphs[0]);
+        Debug.Log("75% done");
         // Animals
         // Call spawn animals function from animal manager
-        _animalManager.SpawnAnimals();
+        animalManager.SpawnAnimals();
+        Debug.Log("100% done");
     }
 
     public void ToMainMenu()
