@@ -14,6 +14,17 @@ public class AnimalManager : MonoBehaviour
     public List<GameObject> animals;
     public Dictionary<GameObject, HappinessState> animalHappiness = new Dictionary<GameObject, HappinessState>();
 
+    public Transform player;
+    
+    public Transform cowExit;
+    public Transform cowPen;
+
+    public Transform pigExit;
+    public Transform pigPen;
+
+    public Transform chickenExit;
+    public Transform chickenPen;
+
     public int xLeft = -50;
     public int xRight = 35;
     public int yUp = 30;
@@ -74,15 +85,6 @@ public class AnimalManager : MonoBehaviour
 
     public void SpawnAnimals()
     {
-        // Clear existing animals
-        // foreach (var animal in animals)
-        // {
-        //     if (animal.activeSelf)
-        //     {
-        //         DestroyImmediate(animal, true);
-        //     }
-        // }
-
         int cowCount = Random.Range(1, 2);
         int pigCount = Random.Range(1, 3);
         int chickenCount = Random.Range(1, 4);
@@ -90,25 +92,37 @@ public class AnimalManager : MonoBehaviour
         for (int i = 0; i < cowCount; i++)
         {
             GameObject newCow = Instantiate(animalsPrefabs[0], GetRandomLocation(), Quaternion.identity);
+            Cow cow = newCow.GetComponent<Cow>();
+            cow.penArea = cowPen;
+            cow.player = player;
+            cow.exitPen = cowExit;
             animals.Add(newCow);
             animalHappiness[newCow] = HappinessState.Happy;
-            newCow.GetComponent<Cow>().SetHappinessState(HappinessState.Happy);
+            cow.SetHappinessState(HappinessState.Happy);
         }
 
         for (int i = 0; i < pigCount; i++)
         {
             GameObject newPig = Instantiate(animalsPrefabs[1], GetRandomLocation(), Quaternion.identity);
+            Pig pig = newPig.GetComponent<Pig>();
+            pig.penArea = pigPen;
+            pig.player = player;
+            pig.exitPen = pigExit;
             animals.Add(newPig);
             animalHappiness[newPig] = HappinessState.Happy;
-            newPig.GetComponent<Pig>().SetHappinessState(HappinessState.Happy);
+            pig.SetHappinessState(HappinessState.Happy);
         }
 
         for (int i = 0; i < chickenCount; i++)
         {
             GameObject newChicken = Instantiate(animalsPrefabs[2], GetRandomLocation(), Quaternion.identity);
+            Chicken chicken = newChicken.GetComponent<Chicken>();
+            chicken.penArea = chickenPen;
+            chicken.player = player;
+            chicken.exitPen = chickenExit;
             animals.Add(newChicken);
             animalHappiness[newChicken] = HappinessState.Happy;
-            newChicken.GetComponent<Chicken>().SetHappinessState(HappinessState.Happy);
+            chicken.SetHappinessState(HappinessState.Happy);
         }
     }
 

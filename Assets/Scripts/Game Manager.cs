@@ -45,17 +45,6 @@ public class GameManager : MonoBehaviour
     {
         sceneManagerScript = GetComponent<SceneManagerScript>();
         _playingState = 0;
-
-        if (timerDisplay == null)
-        {
-            Debug.LogError("Timer Display is not assigned in the Inspector!");
-        }
-        else
-        {
-            Debug.Log("Timer Display assigned successfully.");
-        }
-
-        StartGame(); // Start the game immediately for testing
     }
 
     private void Update()
@@ -80,7 +69,7 @@ public class GameManager : MonoBehaviour
         {
             TimeSpan time = TimeSpan.FromSeconds(dayTimer);
             timerDisplay.text = $"{time.Minutes:D2}:{time.Seconds:D2}";
-            Debug.Log($"Timer Updated: {timerDisplay.text}"); // Log timer updates
+            // Debug.Log($"Timer Updated: {timerDisplay.text}"); // Log timer updates
         }
 
         if (dayTimer <= 0f)
@@ -98,13 +87,12 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        _playingState = 1;
-        _day = 1; 
+        // _playingState = 1;
+        _day = 1;
         sceneManagerScript.LoadScene("Pathfinding Scene");
         SceneManager.sceneLoaded += OnSceneLoaded;
         Debug.Log("Game Started.");
 
-        // Ensure time scale is correct at game start
         dayTimer = 300f; // Reset day timer
     }
 
@@ -114,6 +102,7 @@ public class GameManager : MonoBehaviour
 
         waveFunctionCollapse = GameObject.Find("PCGManager")?.GetComponent<WaveFunctionCollapse>();
         animalManager = GameObject.Find("AnimalManager")?.GetComponent<AnimalManager>();
+        timerDisplay = GameObject.Find("Timer").GetComponent<TextMeshProUGUI>();
 
         if (waveFunctionCollapse == null)
         {
@@ -123,9 +112,14 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("AnimalManager not found!");
         }
+        if (timerDisplay == null)
+        {
+            Debug.LogError("Timer not found!");
+        }
 
         
         Time.timeScale = 0;
+        _playingState = 1;
 
         StartNewDay();
         Time.timeScale = 1;
@@ -161,26 +155,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Returning to Main Menu...");
         SceneManager.LoadScene("MainMenu"); // Load the Main Menu scene
     }
-    
-    // Method to reassign UI listeners
-    // private void ReassignUIListeners()
-    // {
-    //     // Example: If you have buttons referencing the GameManager
-    //     Button[] allButtons = FindObjectsOfType<Button>();
-    //     foreach (Button button in allButtons)
-    //     {
-    //         // Check if the button is referencing the current (duplicate) instance
-    //         for (int i = 0; i < button.onClick.GetPersistentEventCount(); i++)
-    //         {
-    //             var target = button.onClick.GetPersistentTarget(i);
-    //             if (target == this)
-    //             {
-    //                 // Update the listener to point to the original instance
-    //                 button.onClick.SetPersistentListenerState(i, Instance.StartGame());
-    //             }
-    //         }
-    //     }
-    // }
 
     public void ToMainMenu()
     {
