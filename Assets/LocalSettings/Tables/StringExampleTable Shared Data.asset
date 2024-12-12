@@ -67,6 +67,10 @@ MonoBehaviour:
     m_Key: Pixelated
     m_Metadata:
       m_Items: []
+  - m_Id: 807878142189568
+    m_Key: 'Deaths:'
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

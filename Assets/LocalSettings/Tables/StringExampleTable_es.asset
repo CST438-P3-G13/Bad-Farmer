@@ -70,6 +70,10 @@ MonoBehaviour:
     m_Localized: pixelado
     m_Metadata:
       m_Items: []
+  - m_Id: 807878142189568
+    m_Localized: 'Fallecidos:'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

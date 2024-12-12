@@ -2058,10 +2058,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Settings
       objectReference: {fileID: 0}
+    - target: {fileID: 2008593803794475772, guid: 4b41b83eda30f4fc18653e7716be7dcf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2366227153732524701, guid: 4b41b83eda30f4fc18653e7716be7dcf, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1525407778}
+    - target: {fileID: 4281411437504910029, guid: 4b41b83eda30f4fc18653e7716be7dcf, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281411437504910029, guid: 4b41b83eda30f4fc18653e7716be7dcf, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281411437504910029, guid: 4b41b83eda30f4fc18653e7716be7dcf, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4511202501532306582, guid: 4b41b83eda30f4fc18653e7716be7dcf, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2074,6 +2090,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1525407778}
+    - target: {fileID: 6669927234723883092, guid: 4b41b83eda30f4fc18653e7716be7dcf, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6669927234723883092, guid: 4b41b83eda30f4fc18653e7716be7dcf, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6694376267638709310, guid: 4b41b83eda30f4fc18653e7716be7dcf, type: 3}
       propertyPath: AudioSource
       value: 
